@@ -55,9 +55,14 @@ export class ComputerService {
   }
 
   updateComputer(computer: Computer): Observable<Computer> {
-    return this.httpClient.put<Computer>(this.computerUrl, computer)
-      ;
+    return this.httpClient.put<Computer>(this.computerUrl, computer);
   }
 
+  deleteComputerById(id: string): Observable<{}> {
+    return this.httpClient.delete<Computer>(`${this.computerUrl}/delete/${id}`);
+  }
 
+  deleteCompanyById(id: string): Observable<{}> {
+    return this.httpClient.delete<Computer>(`${this.computerUrl}/delete/company/${id}`);
+  }
 }

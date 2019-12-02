@@ -17,7 +17,7 @@ export class UserService {
   login(user: User): Observable<User> {
     return this.httpClient.post<User>(this.url, user)
       .pipe(map(newUser => {
-        if (newUser) { // store user.model.ts details and basic auth credentials in local storage
+        if (newUser) {
           window.btoa(newUser.username + ':' + newUser.password);
           localStorage.setItem('currentUser', JSON.stringify(newUser));
         }
