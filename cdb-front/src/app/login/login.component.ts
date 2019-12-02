@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../model/user.model';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,19 +11,21 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-
-  constructor(private fb: FormBuilder, rooter: Router) {
-  }
+  user: User;
+  constructor(private fb: FormBuilder,private userService: UserService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: ["", Validators.required],
-      password: ["", Validators.required]
-    })
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   onSubmit() {
-
+    this.user = this.loginForm.getRawValue();
+    console.log(this.user);
+    this.userService.login(this.user).subscribe();
+    console.log(this.user);
   }
 
 }
