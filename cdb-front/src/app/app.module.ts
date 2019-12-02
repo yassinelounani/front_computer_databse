@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { ComputersComponent } from './computers/computers.component';
-import { CompanysComponent } from './companys/companys.component';
+import { CompaniesComponent } from './companies/companies.component';
 import { GridModule, PageService, SortService, FilterService, EditService } from '@syncfusion/ej2-angular-grids';
 
 import {HttpClientModule} from '@angular/common/http';
@@ -17,7 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
     AppComponent,
     LoginComponent,
     ComputersComponent,
-    CompanysComponent
+    CompaniesComponent
   ],
   imports: [
     BrowserModule,

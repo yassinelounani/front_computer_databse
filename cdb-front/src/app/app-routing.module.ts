@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { IsSignedInService } from './service/is-signed-in.service';
 import { ComputersComponent } from './computers/computers.component';
-import { CompanysComponent } from './companys/companys.component';
+import { CompaniesComponent } from './companies/companies.component';
 
 const routes: Routes = [
   {
@@ -16,8 +16,8 @@ const routes: Routes = [
     canActivate:[ IsSignedInService ]
   },
   {
-    path:'company',
-    component:CompanysComponent,
+    path:'companies',
+    component:CompaniesComponent,
     canActivate:[ IsSignedInService]
   }
 ];
