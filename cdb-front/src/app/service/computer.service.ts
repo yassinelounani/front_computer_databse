@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {Computer} from '../model/computer.model';
 import {Page} from '../model/page.model';
 import {Navigation} from '../model/navigation.model';
-import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +16,13 @@ export class ComputerService {
       'Authorization': 'my-auth-token'
     })
   };
-  private computerUrl: 'http://localhost:8080/cdb-webapp/computers';
+  private computerUrl = 'http://localhost:8080/cdb-webapp/computers';
 
   constructor(private httpClient: HttpClient) {
   }
 
   getComputer(): Observable<Computer[]> {
     return this.httpClient.get<Computer[]>(this.computerUrl);
-    lo
   }
 
   getComputerByPage(navigation: Navigation): Observable<Page> {
@@ -53,16 +51,12 @@ export class ComputerService {
 
   addComputer(computer: Computer): Observable<Computer> {
     return this.httpClient.post<Computer>(this.computerUrl, computer)
-      .pipe(
-        catchError(this.handleError('addComputer', computer))
-      );
+      ;
   }
 
   updateComputer(computer: Computer): Observable<Computer> {
     return this.httpClient.put<Computer>(this.computerUrl, computer)
-      .pipe(
-        catchError(this.handleError('updateComputer', computer))
-      );
+      ;
   }
 
 
