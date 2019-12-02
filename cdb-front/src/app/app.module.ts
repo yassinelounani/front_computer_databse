@@ -8,6 +8,9 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { ComputersComponent } from './computers/computers.component';
 import { CompanysComponent } from './companys/companys.component';
+import { GridModule, PageService, SortService, FilterService, EditService } from '@syncfusion/ej2-angular-grids';
+
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,8 +25,15 @@ import { CompanysComponent } from './companys/companys.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    HttpClientModule,
+    GridModule
   ],
-  providers: [],
+  providers: [
+    PageService, 
+    SortService,
+    FilterService,
+    EditService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
