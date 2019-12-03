@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'companies',
     component: CompaniesComponent,
     canActivate: [ IsSignedInService]
+  },
+  {
+    path:'**',
+    redirectTo:'computers'
   }
 ];
 
