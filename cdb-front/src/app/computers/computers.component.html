@@ -1,9 +1,58 @@
-<ejs-grid #grid [dataSource]='data' [allowPaging]='true' [editSettings]='editSettings' [allowSorting]='true' [allowFiltering]='true' [pageSettings]='pageSettings'>
+<ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [allowPaging]='true' [editSettings]='editSettings'
+    [allowSorting]='true' [allowFiltering]='true' [pageSettings]='pageSettings' (actionBegin)='actionBegin($event)'
+    (actionComplete)='actionComplete($event)'>
     <e-columns>
-        <e-column field='id' headerText='ID' width='120' textAlign='Right'></e-column>
+        <e-column field='id' headerText='ID' width='80' textAlign='Right' isPrimaryKey='true'></e-column>
         <e-column field='name' headerText='Computer Name' width='160'></e-column>
-        <e-column field='introduced' headerText='Introduced date' width='160'></e-column>
-        <e-column field='discontinued' headerText='Discontinued date' width='160'></e-column>
-        <e-column field='nameCompany' headerText='Company Name' width='120' textAlign='Right'></e-column>
+        <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right'></e-column>
+        <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
+        <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
     </e-columns>
-  </ejs-grid>
+    <ng-template #editSettingsTemplate let-data>
+        <div [formGroup]="orderForm">
+            <table class="e-table e-inline-edit" cellspacing="0.25">
+                <colgroup>
+                    <col style="width: 80px;">
+                    <col style="width: 160px;">
+                    <col style="width: 160px;">
+                    <col style="width: 160px;">
+                    <col style="width: 160px;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td style="text-align: right" class='e-rowcell'>
+                            <div class="e-input-group" [ngClass]='e-disabled'>
+                                <input class="e-input e-field" [attr.disabled]="true" formControlName="id" name='id'
+                                    type="text" style="text-align: right"/>
+                            </div>
+                        </td>
+                        <td class='e-rowcell'>
+                            <div class="e-input-group">
+                                <input class="e-input e-field" name='name' formControlName="name" type="text" (focus)="focusIn($event.target)"
+                                (blur)="focusOut($event.target)" />
+                            </div>
+                        </td>
+                        <td style="text-align: right" class='e-rowcell'>
+                            <div class="e-input-group">
+                                <input class="e-input e-field" name='introduced' formControlName="introduced" type="text" (focus)="focusIn($event.target)"
+                                (blur)="focusOut($event.target)" />
+                            </div>
+                        </td>
+                        <td style="text-align: right" class='e-rowcell'>
+                            <div class="e-input-group">
+                                <input class="e-input e-field" name='discontinued' formControlName="discontinued"
+                                type="text" (focus)="focusIn($event.target)"
+                                (blur)="focusOut($event.target)" />
+                            </div>
+                        </td>
+                        <td style="text-align: right" class='e-rowcell'>
+                            <ejs-dropdownlist id="nameCompany" name="nameCompany" formControlName="nameCompany"
+                                [dataSource]='data' [fields]="{text: 'name', value: 'name' }" popupHeight='300px'
+                                floatLabelType='Never'></ejs-dropdownlist>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+</ejs-grid>

@@ -8,7 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
-import { GridModule, PageService, SortService, FilterService, EditService } from '@syncfusion/ej2-angular-grids';
+import { GridModule, PageService, SortService, FilterService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
+import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 import {HttpClientModule} from '@angular/common/http';
 
@@ -26,13 +27,15 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
-    GridModule
+    GridModule,
+    DropDownListAllModule
   ],
   providers: [
     PageService, 
     SortService,
     FilterService,
-    EditService
+    EditService,
+    ToolbarService
   ],
   bootstrap: [AppComponent]
 })
