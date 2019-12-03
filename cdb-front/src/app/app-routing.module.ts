@@ -7,18 +7,22 @@ import { CompaniesComponent } from './companies/companies.component';
 
 const routes: Routes = [
   {
-    path:'login',
-    component:LoginComponent,
+    path: 'login',
+    component: LoginComponent,
   },
   {
-    path:'computers',
-    component:ComputersComponent,
-    canActivate:[ IsSignedInService ]
+    path: 'computers',
+    component: ComputersComponent,
+    canActivate: [ IsSignedInService ]
   },
   {
-    path:'companies',
-    component:CompaniesComponent,
-    canActivate:[ IsSignedInService]
+    path: 'companies',
+    component: CompaniesComponent,
+    canActivate: [ IsSignedInService]
+  },
+  {
+    path:'**',
+    redirectTo:'computers'
   }
 ];
 

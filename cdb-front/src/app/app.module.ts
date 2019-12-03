@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +11,9 @@ import { GridModule, PageService, SortService, FilterService, EditService, Toolb
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
 import {HttpClientModule} from '@angular/common/http';
+// @ts-ignore
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,10 +30,11 @@ import {HttpClientModule} from '@angular/common/http';
     RouterModule,
     HttpClientModule,
     GridModule,
-    DropDownListAllModule
+    DropDownListAllModule,
+    BrowserAnimationsModule
   ],
   providers: [
-    PageService, 
+    PageService,
     SortService,
     FilterService,
     EditService,

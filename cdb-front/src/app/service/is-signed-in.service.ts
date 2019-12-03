@@ -6,12 +6,11 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 })
 export class IsSignedInService implements CanActivate {
 
-  constructor(private router: Router,) { }
+  constructor(private router: Router) { }
 
-  isConected:Boolean = true;
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    if (this.isConected) {
+    if (localStorage.getItem("currentUser")) {
       return true;
     } else {
       this.router.navigate(['/login'])

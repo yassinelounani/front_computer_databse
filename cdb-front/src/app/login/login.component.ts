@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {User} from '../model/user.model';
+import {UserService} from '../service/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,18 +11,23 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm:FormGroup;
-  constructor(private fb: FormBuilder,rooter: Router) { }
+  loginForm: FormGroup;
+  user: User;
 
-  ngOnInit() {
-    this.loginForm=this.fb.group({
-      username:["",Validators.required],
-      password:["",Validators.required]
-    })
+  constructor(private fb: FormBuilder, private userService: UserService,private router: Router) {
   }
 
-  onSubmit(){
-    
+  ngOnInit() {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    this.user = this.loginForm.getRawValue();
+    this.userService.login(this.user).subscribe();
+    this.router.navigate(['/computers'])
   }
 
 }
