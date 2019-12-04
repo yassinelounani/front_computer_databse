@@ -10,17 +10,19 @@ import { CompaniesComponent } from './companies/companies.component';
 import { GridModule, PageService, SortService, FilterService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
 
-import {HttpClientModule} from '@angular/common/http';
-// @ts-ignore
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TestComponent} from './test/test.component';
+import {AuthInterceptor} from './service/basic-auth-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ComputersComponent,
-    CompaniesComponent
+    CompaniesComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     SortService,
     FilterService,
     EditService,
-    ToolbarService
+    ToolbarService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

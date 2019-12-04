@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
 
-  constructor(private fb: FormBuilder, private userService: UserService,private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.user = this.loginForm.getRawValue();
     this.userService.login(this.user).subscribe();
-    this.router.navigate(['/computers'])
+    this.router.navigate(['/computers']);
   }
 
 }

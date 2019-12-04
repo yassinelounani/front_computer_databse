@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// @ts-ignore
-import {User, UserModel} from '../model/user.model';
-import {UserService} from '../service/user.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ComputerService} from '../service/computer.service';
+import {Navigation} from '../model/navigation.model';
+import {Page} from '../model/page.model';
 
 @Component({
   selector: 'app-test',
@@ -10,22 +9,23 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
-  user: User;
-  form: FormGroup;
-  constructor(private userService: UserService, private formBuilder: FormBuilder) { }
+  page:  Page = {};
+  navigation: Navigation;
+  constructor(private computerService: ComputerService) { }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', Validators.required]
-    });
-  }
+    const navigation: Navigation = {};
+    navigation.number = '2';
+    navigation.size = '10';
 
-  onSubmitForm() {
-    this.user = this.form.getRawValue();
-    console.log(this.user);
-    this.userService.login(this.user).subscribe();
-    console.log(this.user);
+    this.computerService.getComputerByPage(navigation).subscribe(
+      (response) => {
+        console.log(response);
+        this.page = response;
+      }, (error) => {
+        console.log('Erreur de chargement des objects rechercheé' + error);
+      }
+    );
   }
 
 }

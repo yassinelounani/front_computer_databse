@@ -9,6 +9,10 @@ import { Navigation } from '../model/navigation.model';
   providedIn: 'root'
 })
 export class ComputerService {
+    private headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
 
   private computerUrl = 'http://localhost:8080/cdb-webapp/computers';
 
@@ -20,9 +24,10 @@ export class ComputerService {
   }
 
   getComputerByPage(navigation: Navigation): Observable<Page> {
-    const params = new HttpParams().set('number', navigation.number)
-      .set('size', navigation.size);
-    return this.httpClient.get<Page>(`${this.computerUrl}/page`, { params: params });
+    const params = new HttpParams()
+        .set('number', navigation.number)
+        .set('size', navigation.size);
+    return this.httpClient.get<Page>(`${this.computerUrl}/page`, {params: params, headers: this.headers});
   }
 
   getComputerById(id: string): Observable<Page> {
@@ -51,7 +56,15 @@ export class ComputerService {
     return this.httpClient.put<Computer>(this.computerUrl, computer);
   }
 
-  deleteComputer(id: string): Observable<{}> {
-    return this.httpClient.delete(`${this.computerUrl}/delete/${id}`);
+  deleteComputerById(id: string): Observable<{}> {
+    return this.httpClient.delete<Computer>(`${this.computerUrl}/delete/${id}`);
   }
+
+  deleteCompanyById(id: string): Observable<{}> {
+    return this.httpClient.delete<Computer>(`${this.computerUrl}/delete/company/${id}`);
+  }
+  createBasicAuthToken(username: String, password: String) {
+    return 'Basic ' + window.btoa(username + ':' + password);
+  }
+
 }

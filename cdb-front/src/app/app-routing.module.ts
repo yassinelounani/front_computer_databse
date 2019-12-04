@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { IsSignedInService } from './service/is-signed-in.service';
 import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
+import {TestComponent} from './test/test.component';
 
 const routes: Routes = [
   {
@@ -21,8 +22,12 @@ const routes: Routes = [
     canActivate: [ IsSignedInService]
   },
   {
-    path:'**',
-    redirectTo:'computers'
+    path: 'test',
+    component: TestComponent,
+  },
+  {
+    path: '**',
+    redirectTo: 'computers'
   }
 ];
 

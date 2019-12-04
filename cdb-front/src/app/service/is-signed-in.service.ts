@@ -9,12 +9,11 @@ export class IsSignedInService implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-    if (true) {
+    if (localStorage.getItem('currentUser')) {
       return true;
     } else {
       this.router.navigate(['/login'])
-      return false
+      return false;
     }
   }
 }
