@@ -13,11 +13,14 @@ export class AppComponent {
 
   goToComputers(){
     this.router.navigate(['/computers']);
+    document.getElementById("company").className = "item left";
+    document.getElementById("computer").className += " active";
   }
 
   goToCompanies(){
-    console.log(this.router.url)
     this.router.navigate(['/companies']);
+    document.getElementById("computer").className = "item left";
+    document.getElementById("company").className += " active";
   }
 
   logOut(){
