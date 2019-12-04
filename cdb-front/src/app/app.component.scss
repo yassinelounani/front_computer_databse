@@ -1,34 +1,41 @@
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #1D3557;
-    overflow: hidden;
-  }
+  background-color: #1D3557;
+  overflow: hidden;
+  font-family: 'Exo 2';
+  font-weight: 600;
   
   /* Style the links inside the navigation bar */
-  .topnav .item {
+  .item {
     float: left;
-    color: #f2f2f2;
+    color: #F1FAEE;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
   }
 
-  .topnav .left {
+  .left {
     float: left;
   }
 
-  .topnav .right {
+  .right {
     float: right;
   }
   
   /* Change the color of links on hover */
-  .topnav a:hover {
+  a:hover {
     background-color: #A8DADC;
     color: #1D3557;
   }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
+
+  a.active {
+    color: #F1FAEE;
     background-color: #457B9D;
   }
+
+  a.active:hover {
+    background-color: #A8DADC;
+    color: #1D3557;
+  }
+}

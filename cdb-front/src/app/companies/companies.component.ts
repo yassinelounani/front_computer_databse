@@ -10,18 +10,18 @@ import { CompanyService } from '../service/company.service';
 })
 export class CompaniesComponent implements OnInit {
 
-  // public data: Company[];
-  // public pageSettings: PageSettingsModel;
-  // public editSettings: EditSettingsModel;
+  public data: Company[];
+  public pageSettings: PageSettingsModel;
+  public editSettings: EditSettingsModel;
 
-  // constructor(private companyService: CompanyService) { }
+  constructor(private companyService: CompanyService) { }
 
   ngOnInit() {
-    // this.companyService.getCompanies().subscribe(companies => {
-    //   this.data = companies;
-    // });
-    // this.pageSettings = { pageSize: 5 };
-    // this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
+    this.companyService.getCompanies().subscribe(companies => {
+      this.data = companies;
+    });
+    this.pageSettings = { pageSize: 5 };
+    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
   }
 
 }

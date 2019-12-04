@@ -15,7 +15,7 @@ export class ComputersComponent implements OnInit {
 
 
   public data: Computer[];
-  //public companies: Company[];
+  public companies: Company[];
   public pageSettings: PageSettingsModel;
   public editSettings: EditSettingsModel;
   public toolbar: ToolbarItems[];
@@ -28,9 +28,9 @@ export class ComputersComponent implements OnInit {
     this.computerService.getComputer().subscribe(computers => {
       this.data = computers;
     });
-    // this.companyService.getCompanies().subscribe(companies => {
-    //   this.companies = companies;
-    // });
+    this.companyService.getCompanies().subscribe(companies => {
+      this.companies = companies;
+    });
     this.pageSettings = { pageSize: 10, pageSizes: ['10', '25', '50', 'All'] };
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
@@ -70,7 +70,7 @@ export class ComputersComponent implements OnInit {
       }
     }
     if (args.requestType === 'delete') {
-      this.computerService.deleteComputer(args.data[0].id).subscribe();
+      this.computerService.deleteComputerById(args.data[0].id).subscribe();
     }
   }
 
