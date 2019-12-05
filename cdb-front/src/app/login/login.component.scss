@@ -1,0 +1,41 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+  
+.example-container > * {
+    width: 100%;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    h1 {
+        font-size: 20px;
+        font-family: 'Exo 2';
+        font-weight: 600;
+    }
+
+    button {
+        font-family: 'Exo 2';
+        font-weight: normal;
+    }
+
+    .mat-stroked-button:not([enabled]) {
+        cursor: not-allowed;
+    }
+
+    .mat-stroked-button:not([disabled]) {
+        cursor: pointer;
+        border-color: #1A237E;
+    }
+
+    mat-form-field {
+        font-family: 'Exo 2';
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+}

@@ -64,7 +64,9 @@ export class ComputersComponent implements OnInit {
           this.isEdit = false;
           this.computerService.updateComputer(this.orderForm.getRawValue()).subscribe();
         }
-        this.computerService.addComputer(this.orderForm.getRawValue()).subscribe();
+        else {
+          this.computerService.addComputer(this.orderForm.getRawValue()).subscribe();
+        }
       } else {
         args.cancel = true;
       }
@@ -75,7 +77,6 @@ export class ComputersComponent implements OnInit {
   }
 
   actionComplete(args: DialogEditEventArgs): void {
-    console.log(args);
     if (args.requestType === 'beginEdit' || args.requestType === 'add') {
       // Set initial Focus
       (args.form.elements.namedItem('name') as HTMLInputElement).focus();

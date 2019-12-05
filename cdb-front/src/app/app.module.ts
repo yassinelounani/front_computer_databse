@@ -9,12 +9,13 @@ import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { GridModule, PageService, SortService, FilterService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDividerModule } from '@angular/material';
 
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TestComponent} from './test/test.component';
-import {AuthInterceptor} from './service/basic-auth-interceptor.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TestComponent } from './test/test.component';
+import { AuthInterceptor } from './service/basic-auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,11 @@ import {AuthInterceptor} from './service/basic-auth-interceptor.service';
     HttpClientModule,
     GridModule,
     DropDownListAllModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDividerModule
   ],
   providers: [
     PageService,
@@ -41,7 +46,7 @@ import {AuthInterceptor} from './service/basic-auth-interceptor.service';
     FilterService,
     EditService,
     ToolbarService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
