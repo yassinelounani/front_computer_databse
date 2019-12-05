@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TestComponent } from './test/test.component';
 import { AuthInterceptor } from './service/basic-auth-interceptor.service';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { AuthInterceptor } from './service/basic-auth-interceptor.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    MatPaginatorModule,
+    MatInputModule
   ],
   providers: [
     PageService,
