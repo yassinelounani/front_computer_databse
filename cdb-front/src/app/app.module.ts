@@ -16,7 +16,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TestComponent} from './test/test.component';
 import {AuthInterceptor} from './service/basic-auth-interceptor.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { MatInputModule } from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { MatInputModule } from '@angular/material/input';
     DropDownListAllModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
-    MatInputModule
+    MatDatepickerModule
   ],
   providers: [
     PageService,

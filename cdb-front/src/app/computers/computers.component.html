@@ -34,14 +34,18 @@
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
                             <div class="e-input-group">
-                                <input class="e-input e-field" name='introduced' formControlName="introduced" type="text" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
+                                <!-- <input class="e-input e-field" name='introduced' formControlName="introduced"
+                                type="date" (focus)="focusIn($event.target)"
+                                (blur)="focusOut($event.target)" /> -->
+                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
                             </div>
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
                             <div class="e-input-group">
                                 <input class="e-input e-field" name='discontinued' formControlName="discontinued"
-                                type="text" (focus)="focusIn($event.target)"
+                                type="date" (focus)="focusIn($event.target)"
                                 (blur)="focusOut($event.target)" />
                             </div>
                         </td>
