@@ -18,11 +18,12 @@ export class TestComponent implements OnInit {
   constructor(private computerService: ComputerService) { }
 
   ngOnInit() {
-    this.compnaies = [];
-    this.computerService.getComputer().subscribe(
+    this.computer = {};
+    this.computer.name = 'Pc Excilys';
+    this.computer.introduced = '2019-02-10';
+    this.computerService.addComputer(this.computer).subscribe(
       (response) => {
         console.log(response);
-        this.compnaies = response;
       }, (error) => {
         console.log('Erreur de chargement des objects rechercheé' + error);
       }
