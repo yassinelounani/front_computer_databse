@@ -1,8 +1,8 @@
 <div *ngIf='router.url!="/login"' class="topnav">
   <span class="item left">Computer database</span>
-  <a id="computer" class="item left" (click)='goToComputers()'>Computers</a>
+  <a id="computer" class="item left active" (click)='goToComputers()'>Computers</a>
   <a id="company" class="item left" (click)='goToCompanies()'>Companies</a>
-  <span class="item right" (click)='logOut()'>Disconnect</span>
+  <a class="item right" (click)='logOut()'>Disconnect</a>
 </div>
 
 <router-outlet></router-outlet>
