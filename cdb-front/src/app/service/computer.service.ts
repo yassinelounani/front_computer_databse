@@ -49,11 +49,11 @@ export class ComputerService {
   }
 
   addComputer(computer: Computer): Observable<Computer> {
-    return this.httpClient.post<Computer>(this.computerUrl, computer);
+    return this.httpClient.post<Computer>(`${this.computerUrl}/add`, computer);
   }
 
   updateComputer(computer: Computer): Observable<Computer> {
-    return this.httpClient.put<Computer>(this.computerUrl, computer);
+    return this.httpClient.put<Computer>(`${this.computerUrl}/update`, computer);
   }
 
   deleteComputerById(id: string): Observable<{}> {
