@@ -70,7 +70,7 @@ export class ComputersComponent implements OnInit {
       }
     }
     if (args.requestType === 'delete') {
-      this.computerService.deleteComputer(args.data[0].id).subscribe();
+      this.computerService.deleteComputerById(args.data[0].id).subscribe();
     }
   }
 

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ComputerService} from '../service/computer.service';
 import {Navigation} from '../model/navigation.model';
 import {Page} from '../model/page.model';
+import {Computer} from '../model/computer.model';
+import {Company} from '../model/company.model';
 
 @Component({
   selector: 'app-test',
@@ -11,17 +13,16 @@ import {Page} from '../model/page.model';
 export class TestComponent implements OnInit {
   page:  Page = {};
   navigation: Navigation;
+  computer: Computer;
+  compnaies: Company[];
   constructor(private computerService: ComputerService) { }
 
   ngOnInit() {
-    const navigation: Navigation = {};
-    navigation.number = '2';
-    navigation.size = '10';
-
-    this.computerService.getComputerByPage(navigation).subscribe(
+    this.compnaies = [];
+    this.computerService.getComputer().subscribe(
       (response) => {
         console.log(response);
-        this.page = response;
+        this.compnaies = response;
       }, (error) => {
         console.log('Erreur de chargement des objects rechercheé' + error);
       }
