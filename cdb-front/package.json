@@ -21,7 +21,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "@syncfusion/ej2-angular-dropdowns": "^17.3.29",
+    "@syncfusion/ej2-angular-dropdowns": "^17.3.30",
     "@syncfusion/ej2-angular-grids": "^17.3.29",
     "core-js": "^2.5.4",
     "rxjs": "~6.5.3",
