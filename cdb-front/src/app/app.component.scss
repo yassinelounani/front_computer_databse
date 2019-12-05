@@ -8,7 +8,7 @@
   /* Style the links inside the navigation bar */
   .item {
     float: left;
-    color: #F1FAEE;
+    color: #FFFFEA;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -25,17 +25,17 @@
   
   /* Change the color of links on hover */
   a:hover {
-    background-color: #A8DADC;
+    background-color: #F1FAEE;
     color: #1D3557;
   }
 
   a.active {
-    color: #F1FAEE;
-    background-color: #457B9D;
+    color: #1D3557;
+    background-color: #D8D8D8;
   }
 
   a.active:hover {
-    background-color: #A8DADC;
+    background-color: #F1FAEE;
     color: #1D3557;
   }
 }
