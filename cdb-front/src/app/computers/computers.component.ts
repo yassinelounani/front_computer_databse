@@ -31,6 +31,8 @@ export class ComputersComponent implements OnInit {
   constructor(private computerService: ComputerService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
+    console.log("comp");
+
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
@@ -75,7 +77,6 @@ export class ComputersComponent implements OnInit {
       case 'save':
         if (this.orderForm.valid) {
           const computer: Computer = this.orderForm.getRawValue();
-          console.log(computer);
           if (this.isEdit) {
             this.isEdit = false;
             this.computerService.updateComputer(computer).subscribe(() => { this.updateData(); });

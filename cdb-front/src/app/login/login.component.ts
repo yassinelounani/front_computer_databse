@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("init");
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -27,8 +28,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.user = this.loginForm.getRawValue();
-    this.userService.login(this.user).subscribe();
-    this.router.navigate(['/computers']);
+    console.log(this.user);
+    this.userService.login(this.user).subscribe(() => { this.router.navigate(['/computers']);});
   }
 
   getErrorMessage(field: string) {
