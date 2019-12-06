@@ -9,6 +9,7 @@ import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { GridModule, PageService, SortService, FilterService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -16,7 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TestComponent} from './test/test.component';
 import {AuthInterceptor} from './service/basic-auth-interceptor.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     DropDownListAllModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
-    MatDatepickerModule
+    DatePickerModule,
   ],
   providers: [
     PageService,

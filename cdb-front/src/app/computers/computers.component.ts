@@ -7,7 +7,9 @@ import { Company } from '../model/company.model';
 import { CompanyService } from '../service/company.service';
 import { Navigation } from '../model/navigation.model';
 import { PageEvent } from '@angular/material/paginator';
+import { BlurEventArgs } from '@syncfusion/ej2-angular-calendars'
 import { $ } from 'protractor';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-computers',
@@ -24,6 +26,8 @@ export class ComputersComponent implements OnInit {
   public toolbar: ToolbarItems[];
   public orderForm: FormGroup;
   public isEdit: boolean;
+  public maxIntroduced: string;
+  public minDiscontinued: string = "1970-01-01";
   
   public navigation: Navigation;
   public length: string ='100';
@@ -47,6 +51,22 @@ export class ComputersComponent implements OnInit {
     this.navigation.size= '10'
     console.log(this.navigation)
     this.updateData();
+  }
+
+  setMaxIntroduced(maxIntroduced: string){
+    if(maxIntroduced) {
+      this.maxIntroduced = maxIntroduced
+    } else {
+      this.maxIntroduced = ""
+    }
+  }
+
+  setMinDiscontinued(minDiscontinued: string){
+    if(minDiscontinued) {
+      this.minDiscontinued = minDiscontinued
+    } else {
+      this.minDiscontinued = "1970-01-01"
+    }
   }
 
   createFormGroup(data: Computer): FormGroup {

@@ -27,27 +27,21 @@
                             </div>
                         </td>
                         <td class='e-rowcell'>
-                            <div class="e-input-group">
-                                <input class="e-input e-field" name='name' formControlName="name" type="text" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
-                            </div>
+                                <ejs-textbox class="e-input e-field" name='name' formControlName="name"
+                                ></ejs-textbox>
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
-                            <div class="e-input-group">
-                                <!-- <input class="e-input e-field" name='introduced' formControlName="introduced"
-                                type="date" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" /> -->
-                                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Choose a date">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-                            </div>
+                                <ejs-datepicker name='introduced' formControlName="introduced"
+                                (change)="setMinDiscontinued($event.value)" [min]="1970-01-01" [max] = "maxIntroduced" >
+                                </ejs-datepicker>
+                            
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
-                            <div class="e-input-group">
-                                <input class="e-input e-field" name='discontinued' formControlName="discontinued"
-                                type="date" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
-                            </div>
+                            
+                                <ejs-datepicker name='discontinued' formControlName="discontinued" 
+                                (change)="setMaxIntroduced($event.value)" [min]="minDiscontinued">
+                                </ejs-datepicker>
+                            
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
                             <ejs-dropdownlist id="nameCompany" name="nameCompany" formControlName="nameCompany"
