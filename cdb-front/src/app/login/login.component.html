@@ -1,23 +1,23 @@
-<div style="text-align:center">
-    <h1>Computer Database</h1>
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" formControlName="username" class="form-control"/>
-            <div *ngIf="loginForm.controls.username.errors">
-                <div *ngIf="loginForm.controls.username.errors.required">please enter a username</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" formControlName="password" class="form-control"/>
-            <div *ngIf="loginForm.controls.password.errors">
-                <div *ngIf="loginForm.controls.password.errors.required">please enter a password</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <button [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
+<div class="parent">
+    <h1>Login</h1>
+
+
+    <form [formGroup]="loginForm">
+        <div class='example-container'>
+            <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="Userame" name="username" formControlName="username">
+                <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('username')}}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Password" name="password" formControlName="password">
+                <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('password')}}</mat-error>
+            </mat-form-field>
+            <button mat-stroked-button type="submit" aria-label="Add button" (click)="onSubmit()"
+                [disabled]="loginForm.invalid">
+                Login
+            </button>
         </div>
     </form>
 </div>

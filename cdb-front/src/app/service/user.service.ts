@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {User} from '../model/user.model';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { User } from '../model/user.model';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -19,27 +19,25 @@ export class UserService {
   }
 
   login(user: User): Observable<User> {
-    return this.httpClient.post<any>(this.url, user, {headers: this.headers})
+    return this.httpClient.post<any>(this.url, user, { headers: this.headers })
       .pipe(
         map(
           userData => {
             sessionStorage.setItem('username', user.username);
-            console.log(userData);
             const tokenStr = 'Bearer ' + userData.token;
-            console.log(tokenStr);
             sessionStorage.setItem('token', tokenStr);
             return userData;
           }
         )
       );
   }
+
   isUserLoggedIn() {
     const user = sessionStorage.getItem('username')
-    console.log(!(user === null));
     return !(user === null);
   }
 
   logout() {
-    localStorage.removeItem('username');
+    sessionStorage.removeItem('username');
   }
 }

@@ -20,7 +20,7 @@ export class CompaniesComponent implements OnInit {
     this.companyService.getCompanies().subscribe(companies => {
       this.data = companies;
     });
-    this.pageSettings = { pageSize: 5 };
+    this.pageSettings = { pageSize: 10, pageSizes: ['10', '25', '50', 'All'] };
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
   }
 

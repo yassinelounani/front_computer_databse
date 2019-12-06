@@ -9,10 +9,10 @@ import { Navigation } from '../model/navigation.model';
   providedIn: 'root'
 })
 export class ComputerService {
-    private headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    });
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
 
   private computerUrl = 'http://localhost:8080/cdb-webapp/computers';
 
@@ -25,9 +25,9 @@ export class ComputerService {
 
   getComputerByPage(navigation: Navigation): Observable<Page> {
     const params = new HttpParams()
-        .set('number', navigation.number)
-        .set('size', navigation.size);
-    return this.httpClient.get<Page>(`${this.computerUrl}/page`, {params: params, headers: this.headers});
+      .set('number', navigation.number)
+      .set('size', navigation.size);
+    return this.httpClient.get<Page>(`${this.computerUrl}/page`, { params: params, headers: this.headers });
   }
 
   getComputerById(id: string): Observable<Page> {
@@ -49,11 +49,11 @@ export class ComputerService {
   }
 
   addComputer(computer: Computer): Observable<Computer> {
-    return this.httpClient.post<Computer>(this.computerUrl, computer);
+    return this.httpClient.post<Computer>(`${this.computerUrl}/add`, computer);
   }
 
   updateComputer(computer: Computer): Observable<Computer> {
-    return this.httpClient.put<Computer>(this.computerUrl, computer);
+    return this.httpClient.put<Computer>(`${this.computerUrl}/update`, computer);
   }
 
   deleteComputerById(id: string): Observable<{}> {
