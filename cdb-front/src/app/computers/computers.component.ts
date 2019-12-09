@@ -26,8 +26,10 @@ export class ComputersComponent implements OnInit {
   public toolbar: ToolbarItems[];
   public orderForm: FormGroup;
   public isEdit: boolean;
+  public defaultMinDate: string = "1970-01-01"
+  public defaultMaxDate: string = ""
   public maxIntroduced: string;
-  public minDiscontinued: string = "1970-01-01";
+  public minDiscontinued: string = this.defaultMinDate;
   
   public navigation: Navigation;
   public length: string = '100';
@@ -58,7 +60,7 @@ export class ComputersComponent implements OnInit {
     if(maxIntroduced) {
       this.maxIntroduced = maxIntroduced
     } else {
-      this.maxIntroduced = ""
+      this.maxIntroduced = this.defaultMaxDate;
     }
   }
 
@@ -66,7 +68,7 @@ export class ComputersComponent implements OnInit {
     if(minDiscontinued) {
       this.minDiscontinued = minDiscontinued
     } else {
-      this.minDiscontinued = "1970-01-01"
+      this.minDiscontinued = this.defaultMinDate
     }
   }
 

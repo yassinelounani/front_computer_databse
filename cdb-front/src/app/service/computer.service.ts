@@ -39,7 +39,7 @@ export class ComputerService {
       .set('size', navigation.size)
       .set('property', navigation.property)
       .set('order', navigation.order);
-    return this.httpClient.get<Page>(`${this.computerUrl}/sort`, { params: params });
+    return this.httpClient.get<Page>(`${this.computerUrl}/sort/id`, { params: params });
   }
 
   getComputerByName(navigation: Navigation, name: string): Observable<Page> {
