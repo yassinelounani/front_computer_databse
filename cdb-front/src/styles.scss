@@ -11,8 +11,9 @@
 html, body { height: 100%; }
 body { 
     margin: 0; 
-    font-family: "Exo 2", Roboto, "Helvetica Neue", sans-serif; 
-    background-image: url(church.jpg);
+    font-family: "Exo 2", Roboto, "Helvetica Neue", sans-serif;
+    color: #1D3557;
+    background-image: url(bg.jpg);
     background-repeat: no-repeat;
 }
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
