@@ -7,7 +7,6 @@ import { Company } from '../model/company.model';
 import { CompanyService } from '../service/company.service';
 import { Navigation } from '../model/navigation.model';
 import { PageEvent } from '@angular/material/paginator';
-import { FormValidatorModel, FormValidator } from '@syncfusion/ej2-inputs';
 
 @Component({
   selector: 'app-computers',
@@ -26,9 +25,8 @@ export class ComputersComponent implements OnInit {
 
   public navigation: Navigation;
   public length: string;
-
-  public formValidator: FormValidator;
-  public option: FormValidatorModel;
+  public filterValue: string;
+  public filterColumn: string;
 
   constructor(private computerService: ComputerService, private companyService: CompanyService) { }
 
@@ -42,18 +40,13 @@ export class ComputersComponent implements OnInit {
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
     this.length = '100';
-
-    this.formValidator = new FormValidator('#formID', this.option);
-    this.option = {
-      rules: {
-        'name': { required: true }
-      }
-    };
+    this.filterValue = '';
+    this.filterColumn = '';
 
     this.navigation = {}
     this.navigation.number = '0';
     this.navigation.order = 'ASC';
-    this.navigation.property = 'id';
+    this.navigation.property = 'name';
     this.navigation.size = '10';
     this.updateData();
   }
@@ -74,47 +67,27 @@ export class ComputersComponent implements OnInit {
     switch (args.requestType) {
 
       case 'beginEdit':
-        this.isEdit = true;
-        this.orderForm = this.createFormGroup(args.rowData);
+        this.edit(args);
         break;
 
       case 'add':
-        this.orderForm = this.createFormGroup(args.rowData);
+        this.add(args);
         break;
 
       case 'save':
-        console.log(this.formValidator.validate());
-        if (this.orderForm.valid) {
-          const computer: Computer = this.orderForm.getRawValue();
-          if (this.isEdit) {
-            this.isEdit = false;
-            this.computerService.updateComputer(computer).subscribe(() => { this.updateData(); });
-          } else {
-            this.computerService.addComputer(computer).subscribe(() => { this.updateData(); });
-          }
-        } else {
-          args.cancel = true;
-        }
+        this.save(args);
         break;
 
       case 'delete':
-        this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData(); });
+        this.delete(args);
         break;
 
       case 'sorting':
-        if (args.direction === 'Ascending') {
-          this.navigation.order = 'ASC'
-        }
-        if (args.direction === 'Descending') {
-          this.navigation.order = 'DSC'
-        }
-        if (args.columnName) {
-          this.navigation.property = args.columnName;
-        } else {
-          this.navigation.order = 'ASC'
-          this.navigation.property = 'name'
-        }
-        this.updateData();
+        this.sort(args);
+        break;
+
+      case 'filtering':
+        this.filter(args);
         break;
     }
   }
@@ -134,14 +107,110 @@ export class ComputersComponent implements OnInit {
     target.parentElement.classList.remove('e-input-focus');
   }
 
+  edit(args: ActionEventArgs): void {
+    this.isEdit = true;
+    this.orderForm = this.createFormGroup(args.rowData);
+  }
+
+  add(args: ActionEventArgs): void {
+    this.orderForm = this.createFormGroup(args.rowData);
+  }
+
+  save(args: ActionEventArgs): void {
+    if (this.orderForm.valid) {
+      const computer: Computer = this.orderForm.getRawValue();
+      if (this.isEdit) {
+        this.isEdit = false;
+        this.computerService.updateComputer(computer).subscribe(() => { this.updateData(); });
+      } else {
+        this.computerService.addComputer(computer).subscribe(() => { this.updateData(); });
+      }
+    } else {
+      args.cancel = true;
+    }
+  }
+
+  delete(args: ActionEventArgs): void {
+    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData(); });
+  }
+
+  sort(args: ActionEventArgs): void {
+    if (args.direction === 'Ascending') {
+      this.navigation.order = 'ASC'
+    }
+    if (args.direction === 'Descending') {
+      this.navigation.order = 'DSC'
+    }
+    if (args.columnName) {
+      if (args.columnName === 'nameCompany') {
+        this.navigation.property = 'company'
+      } else {
+        this.navigation.property = args.columnName;
+      }
+    } else {
+      this.navigation.order = 'ASC'
+      this.navigation.property = 'name'
+    }
+    this.updateData();
+  }
+
+  filter(args: ActionEventArgs): void {
+
+    if (args.currentFilteringColumn) {
+      this.filterColumn = args.currentFilteringColumn;
+
+      switch (this.filterColumn) {
+
+        case 'introduced':
+          this.filterValue = args.currentFilterObject.value.toString();
+          this.updateDataFilteringForDates();
+          break;
+
+        case 'discontinued':
+          this.filterValue = args.currentFilterObject.value.toString();
+          this.updateDataFilteringForDates();
+          break;
+
+        case 'name':
+          this.filterColumn = 'computer';
+          this.filterValue = args.currentFilterObject.value.toString();
+          this.updateDataFiltering();
+          break;
+
+        case 'nameCompany':
+          this.filterColumn = 'company';
+          this.filterValue = args.currentFilterObject.value.toString();
+          this.updateDataFiltering();
+          break;
+      }
+    } else {
+      this.updateData();
+    }
+
+  }
+
   updatePage(pageEvent: PageEvent) {
     this.navigation.number = (pageEvent.pageIndex).toString();
     this.navigation.size = pageEvent.pageSize.toString();
-    this.updateData()
+    this.updateData();
   }
 
   updateData() {
     this.computerService.getComputerBySort(this.navigation).subscribe(page => {
+      this.data = page.content;
+      this.length = page.totalElement;
+    });
+  }
+
+  updateDataFiltering() {
+    this.computerService.getComputerSortingAndFiltering(this.navigation, this.filterColumn, this.filterValue).subscribe(page => {
+      this.data = page.content;
+      this.length = page.totalElement;
+    });
+  }
+
+  updateDataFilteringForDates() {
+    this.computerService.getComputerSortingAndFilteringForDates(this.navigation, this.filterColumn, this.filterValue).subscribe(page => {
       this.data = page.content;
       this.length = page.totalElement;
     });
