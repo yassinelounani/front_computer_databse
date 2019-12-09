@@ -1,6 +1,5 @@
-<ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings'
-    [allowSorting]='true' [allowFiltering]='true' (actionBegin)='actionBegin($event)'
-    (actionComplete)='actionComplete($event)'>
+<ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings' [allowSorting]='true'
+    [allowFiltering]='true' (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
     <e-columns>
         <e-column field='id' headerText='ID' width='80' textAlign='Right' isPrimaryKey='true'></e-column>
         <e-column field='name' headerText='Computer Name' width='160'></e-column>
@@ -9,7 +8,7 @@
         <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
     </e-columns>
     <ng-template #editSettingsTemplate let-data>
-        <div [formGroup]="orderForm">
+        <div [formGroup]="orderForm" id="formID">
             <table class="e-table e-inline-edit" cellspacing="0.25">
                 <colgroup>
                     <col style="width: 80px;">
@@ -21,28 +20,25 @@
                 <tbody>
                     <tr>
                         <td style="text-align: right" class='e-rowcell'>
-                            <div class="e-input-group" [ngClass]='e-disabled'>
-                                <input class="e-input e-field" [attr.disabled]="true" formControlName="id" name='id'
-                                    type="text" style="text-align: right"/>
-                            </div>
+                            <input class="e-input e-field" [attr.disabled]="true" formControlName="id" name='id'
+                                type="text" style="text-align: right" />
                         </td>
                         <td class='e-rowcell'>
                             <div class="e-input-group">
-                                <input class="e-input e-field" name='name' formControlName="name" type="text" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
+                                <input class="e-input e-field" name='name' formControlName="name" type="text"
+                                    (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
                             </div>
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
                             <div class="e-input-group">
-                                <input class="e-input e-field" name='introduced' formControlName="introduced" type="text" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
+                                <input class="e-input e-field" name='introduced' formControlName="introduced"
+                                    type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
                             </div>
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
                             <div class="e-input-group">
                                 <input class="e-input e-field" name='discontinued' formControlName="discontinued"
-                                type="text" (focus)="focusIn($event.target)"
-                                (blur)="focusOut($event.target)" />
+                                    type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
                             </div>
                         </td>
                         <td style="text-align: right" class='e-rowcell'>
@@ -57,9 +53,6 @@
     </ng-template>
 </ejs-grid>
 
-<mat-paginator [length]="length"
-              [pageSize]="10"
-              [pageSizeOptions]="[10,50,100]"
-              [showFirstLastButtons]=true
-              (page)="updatePage($event)">
+<mat-paginator [length]="length" [pageSize]="10" [pageSizeOptions]="[10,50,100]" [showFirstLastButtons]=true
+    (page)="updatePage($event)">
 </mat-paginator>

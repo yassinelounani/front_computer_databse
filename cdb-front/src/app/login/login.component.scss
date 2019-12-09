@@ -1,6 +1,19 @@
+body {
+    color: red;
+}
+
 .example-container {
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    border: 5px solid #1A237E;
+    border-radius: 10px;
+    padding: 50px 50px 50px 50px;
+    background-color: #FFFFEA;
 }
   
 .example-container > * {
@@ -9,7 +22,6 @@
 
 .parent {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 
@@ -17,6 +29,7 @@
         font-size: 20px;
         font-family: 'Exo 2';
         font-weight: 600;
+        color: #1A237E;
     }
 
     button {
@@ -31,6 +44,7 @@
     .mat-stroked-button:not([disabled]) {
         cursor: pointer;
         border-color: #1A237E;
+        color: #1A237E;
     }
 
     mat-form-field {

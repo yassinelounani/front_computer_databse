@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Computer } from '../model/computer.model';
-import { PageSettingsModel, EditSettingsModel, ToolbarItems, SaveEventArgs, DialogEditEventArgs, SortEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
+import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
 import { ComputerService } from '../service/computer.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Company } from '../model/company.model';
 import { CompanyService } from '../service/company.service';
 import { Navigation } from '../model/navigation.model';
 import { PageEvent } from '@angular/material/paginator';
-import { $ } from 'protractor';
+import { FormValidatorModel, FormValidator } from '@syncfusion/ej2-inputs';
 
 @Component({
   selector: 'app-computers',
@@ -15,7 +15,6 @@ import { $ } from 'protractor';
   styleUrls: ['./computers.component.scss']
 })
 export class ComputersComponent implements OnInit {
-
 
   public data: string[];
   public companies: Company[];
@@ -26,13 +25,14 @@ export class ComputersComponent implements OnInit {
   public isEdit: boolean;
 
   public navigation: Navigation;
-  public length: string = '100';
+  public length: string;
+
+  public formValidator: FormValidator;
+  public option: FormValidatorModel;
 
   constructor(private computerService: ComputerService, private companyService: CompanyService) { }
 
   ngOnInit(): void {
-    console.log("comp");
-
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
@@ -41,6 +41,14 @@ export class ComputersComponent implements OnInit {
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
+    this.length = '100';
+
+    this.formValidator = new FormValidator('#formID', this.option);
+    this.option = {
+      rules: {
+        'name': { required: true }
+      }
+    };
 
     this.navigation = {}
     this.navigation.number = '0';
@@ -75,6 +83,7 @@ export class ComputersComponent implements OnInit {
         break;
 
       case 'save':
+        console.log(this.formValidator.validate());
         if (this.orderForm.valid) {
           const computer: Computer = this.orderForm.getRawValue();
           if (this.isEdit) {
@@ -83,11 +92,9 @@ export class ComputersComponent implements OnInit {
           } else {
             this.computerService.addComputer(computer).subscribe(() => { this.updateData(); });
           }
-
         } else {
           args.cancel = true;
         }
-
         break;
 
       case 'delete':
@@ -110,7 +117,6 @@ export class ComputersComponent implements OnInit {
         this.updateData();
         break;
     }
-
   }
 
   actionComplete(args: DialogEditEventArgs): void {
