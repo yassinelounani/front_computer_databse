@@ -3,4 +3,6 @@ export class Navigation {
   size?: string;
   property?: string;
   order?: string;
+  filter?: string;
+  value?: string;
 }

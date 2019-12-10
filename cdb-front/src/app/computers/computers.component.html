@@ -1,61 +1,58 @@
-<ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings' [allowSorting]='true'
-    [allowFiltering]='true' (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
-    <e-columns>
-        <e-column field='id' headerText='ID' width='80' textAlign='Right' isPrimaryKey='true'></e-column>
-        <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"the name is required"]}'></e-column>
-        <e-column field='introduced' headerText='Introduced date' width='160' [validationRules]='{date:[true,"you know what is a date"], maxDate:[maxDate,"the date is not good"]}'></e-column>
-        <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
-        <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
-    </e-columns>
-    <ng-template #editSettingsTemplate let-data>
-        <div [formGroup]="orderForm">
-            <table class="e-table e-inline-edit" cellspacing="0.25">
-                <colgroup>
-                    <col style="width: 80px;">
-                    <col style="width: 160px;">
-                    <col style="width: 160px;">
-                    <col style="width: 160px;">
-                    <col style="width: 160px;">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td style="text-align: right" class='e-rowcell'>
-                            <div class="e-input-group" [ngClass]='e-disabled'>
-                                <input class="e-input" [attr.disabled]="true" formControlName="id" name='id'
-                                    type="text" style="text-align: right" />
-                            </div>
-                        </td>
-                        <td class='e-rowcell'>
-                            <div class="e-input-group">
-                                <input class="e-input" name='name' formControlName="name" type="text"
-                                    (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
-                            </div>
-                        </td>
-                        <td style="text-align: right" class='e-rowcell'>
-                            <ejs-datepicker name='introduced' formControlName="introduced"
+<div class="computer">
+    <ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings' [allowSorting]='true'
+        [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
+        (actionComplete)='actionComplete($event)'>
+        <e-columns>
+            <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"the name is required"]}'></e-column>
+            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right' [validationRules]='{date:[true,"you know what is a date"], maxDate:[maxDate,"the date is not good"]}'></e-column>
+            <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
+            <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
+        </e-columns>
+        <ng-template #editSettingsTemplate let-data>
+            <div [formGroup]="orderForm" id="formID">
+                <table class="e-table e-inline-edit" cellspacing="0.25">
+                    <colgroup>
+                        <col style="width: 160px;">
+                        <col style="width: 160px;">
+                        <col style="width: 160px;">
+                        <col style="width: 160px;">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td class='e-rowcell'>
+                                <div class="e-input-group">
+                                    <input class="e-input" name='name' formControlName="name" type="text"
+                                        (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                                </div>
+                            </td>
+                            <td style="text-align: right" class='e-rowcell'>
+                                <div class="e-input-group">
+                                    <ejs-datepicker name='introduced' formControlName="introduced"
                                 (change)="setMinDiscontinued($event.value)" [min]="defaultMinDate" [max]="maxIntroduced">
                             </ejs-datepicker>
-
-                        </td>
-                        <td style="text-align: right" class='e-rowcell'>
-
-                            <ejs-datepicker name='discontinued' formControlName="discontinued"
+                                </div>
+                            </td>
+                            <td style="text-align: right" class='e-rowcell'>
+                                <div class="e-input-group">
+                                    <ejs-datepicker name='discontinued' formControlName="discontinued"
                                 (change)="setMaxIntroduced($event.value)" [min]="minDiscontinued" [max]="defaultMaxDate">
                             </ejs-datepicker>
-
-                        </td>
-                        <td style="text-align: right" class='e-rowcell'>
-                            <ejs-dropdownlist id="nameCompany" name="idCompany" formControlName="idCompany"
-                                [dataSource]='companies' [fields]="{text: 'name', value: 'id' }" popupHeight='300px'
-                                floatLabelType='Never'></ejs-dropdownlist>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </ng-template>
-</ejs-grid>
-
-<mat-paginator [length]="length" [pageSize]="10" [pageSizeOptions]="[10,50,100]" [showFirstLastButtons]=true
-    (page)="updatePage($event)">
-</mat-paginator>
+                                </div>
+                            </td>
+                            <td style="text-align: right" class='e-rowcell'>
+                                <ejs-dropdownlist id="nameCompany" name="idCompany" formControlName="idCompany"
+                                    [dataSource]='companies' [fields]="{text: 'name', value: 'id' }" popupHeight='300px'
+                                    floatLabelType='Never'></ejs-dropdownlist>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-template>
+    </ejs-grid>
+</div>
+<div class="paginator">
+    <mat-paginator [length]="length" [pageSize]="10" [pageSizeOptions]="[10,50,100]" [showFirstLastButtons]=true
+        (page)="updatePage($event)">
+    </mat-paginator>
+</div>

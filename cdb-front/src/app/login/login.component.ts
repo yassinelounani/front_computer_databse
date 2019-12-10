@@ -13,13 +13,13 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   user: User;
-  blackState:boolean = true;
+  hide: boolean;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
-    console.log("init");
+    this.hide = true;
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.user = this.loginForm.getRawValue();
-    console.log(this.user);
     this.userService.login(this.user).subscribe(() => { this.router.navigate(['/computers']);});
   }
 
@@ -41,4 +40,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-}
+}  

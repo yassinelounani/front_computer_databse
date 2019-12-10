@@ -9,7 +9,8 @@ import { Company } from '../model/company.model';
 export class CompanyService {
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Authorization': `${sessionStorage.getItem('token')}`
   });
 
   private companyUrl = 'http://localhost:8080/cdb-webapp/companies';
@@ -18,6 +19,7 @@ export class CompanyService {
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.httpClient.get<Company[]>(this.companyUrl, { headers: this.headers});
+    console.log(this.headers);
+    return this.httpClient.get<Company[]>(this.companyUrl, {headers: this.headers});
   }
 }

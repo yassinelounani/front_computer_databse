@@ -1,0 +1,6 @@
+<div *ngIf='router.url!="/login"' class="topnav fixed-top">
+  <span class="item left">Computer database</span>
+  <a id="computer" class="item left active" (click)='goToComputers()'>Computers</a>
+  <a id="company" class="item left" (click)='goToCompanies()'>Companies</a>
+  <a class="item right" (click)='logOut()'>Log out</a>
+</div>
