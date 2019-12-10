@@ -26,18 +26,14 @@
                                 </div>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                <div class="e-input-group">
                                     <ejs-datepicker name='introduced' formControlName="introduced"
                                 (change)="setMinDiscontinued($event.value)" [min]="defaultMinDate" [max]="maxIntroduced">
                             </ejs-datepicker>
-                                </div>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                <div class="e-input-group">
                                     <ejs-datepicker name='discontinued' formControlName="discontinued"
                                 (change)="setMaxIntroduced($event.value)" [min]="minDiscontinued" [max]="defaultMaxDate">
                             </ejs-datepicker>
-                                </div>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
                                 <ejs-dropdownlist id="nameCompany" name="idCompany" formControlName="idCompany"
