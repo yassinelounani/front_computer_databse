@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Computer } from '../model/computer.model';
-import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
+import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs, FilterSettingsModel, IFilter, Filter, updateData } from '@syncfusion/ej2-grids';
 import { ComputerService } from '../service/computer.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Company } from '../model/company.model';
 import { CompanyService } from '../service/company.service';
 import { Navigation } from '../model/navigation.model';
 import { PageEvent } from '@angular/material/paginator';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-computers',
@@ -15,18 +16,21 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ComputersComponent implements OnInit {
 
+  @ViewChild('grid', { static: false })
+  public grid: GridComponent;
   public data: string[];
   public companies: Company[];
   public pageSettings: PageSettingsModel;
   public editSettings: EditSettingsModel;
   public toolbar: ToolbarItems[];
   public orderForm: FormGroup;
+
   public isEdit: boolean;
+  public isFilter: boolean;
 
   public navigation: Navigation;
   public length: string;
-  public filterValue: string;
-  public filterColumn: string;
+  dropInstance: any;
 
   constructor(private computerService: ComputerService, private companyService: CompanyService) { }
 
@@ -39,15 +43,16 @@ export class ComputersComponent implements OnInit {
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
+    this.isFilter = false;
     this.length = '100';
-    this.filterValue = '';
-    this.filterColumn = '';
 
     this.navigation = {}
     this.navigation.number = '0';
     this.navigation.order = 'ASC';
     this.navigation.property = 'name';
     this.navigation.size = '10';
+    this.navigation.filter = '';
+    this.navigation.value = '';
     this.updateData();
   }
 
@@ -89,6 +94,9 @@ export class ComputersComponent implements OnInit {
       case 'filtering':
         this.filter(args);
         break;
+
+      case 'refresh':
+        break;
     }
   }
 
@@ -121,9 +129,9 @@ export class ComputersComponent implements OnInit {
       const computer: Computer = this.orderForm.getRawValue();
       if (this.isEdit) {
         this.isEdit = false;
-        this.computerService.updateComputer(computer).subscribe(() => { this.updateData(); });
+        this.computerService.updateComputer(computer).subscribe(() => { this.updateData() });
       } else {
-        this.computerService.addComputer(computer).subscribe(() => { this.updateData(); });
+        this.computerService.addComputer(computer).subscribe(() => { this.updateData() });
       }
     } else {
       args.cancel = true;
@@ -131,7 +139,7 @@ export class ComputersComponent implements OnInit {
   }
 
   delete(args: ActionEventArgs): void {
-    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData(); });
+    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData() });
   }
 
   sort(args: ActionEventArgs): void {
@@ -143,7 +151,7 @@ export class ComputersComponent implements OnInit {
     }
     if (args.columnName) {
       if (args.columnName === 'nameCompany') {
-        this.navigation.property = 'company'
+        this.navigation.property = 'company.name'
       } else {
         this.navigation.property = args.columnName;
       }
@@ -157,36 +165,38 @@ export class ComputersComponent implements OnInit {
   filter(args: ActionEventArgs): void {
 
     if (args.currentFilteringColumn) {
-      this.filterColumn = args.currentFilteringColumn;
+      this.isFilter = true;
+      this.navigation.filter = args.currentFilteringColumn;
 
-      switch (this.filterColumn) {
+      switch (this.navigation.filter) {
 
         case 'introduced':
-          this.filterValue = args.currentFilterObject.value.toString();
-          this.updateDataFilteringForDates();
-          break;
-
         case 'discontinued':
-          this.filterValue = args.currentFilterObject.value.toString();
-          this.updateDataFilteringForDates();
+          this.navigation.value = args.currentFilterObject.value.toString();
           break;
 
         case 'name':
-          this.filterColumn = 'computer';
-          this.filterValue = args.currentFilterObject.value.toString();
-          this.updateDataFiltering();
+          this.navigation.filter = 'computer';
+          this.navigation.value = args.currentFilterObject.value.toString();
           break;
 
         case 'nameCompany':
-          this.filterColumn = 'company';
-          this.filterValue = args.currentFilterObject.value.toString();
-          this.updateDataFiltering();
+          this.navigation.filter = 'company';
+          this.navigation.value = args.currentFilterObject.value.toString();
           break;
       }
     } else {
-      this.updateData();
+      this.isFilter = false;
+      this.navigation.filter = '';
+      this.navigation.value = '';
     }
+    
+    this.updateData();
+  }
 
+
+  dataBound() {
+    Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
   }
 
   updatePage(pageEvent: PageEvent) {
@@ -197,20 +207,6 @@ export class ComputersComponent implements OnInit {
 
   updateData() {
     this.computerService.getComputerBySort(this.navigation).subscribe(page => {
-      this.data = page.content;
-      this.length = page.totalElement;
-    });
-  }
-
-  updateDataFiltering() {
-    this.computerService.getComputerSortingAndFiltering(this.navigation, this.filterColumn, this.filterValue).subscribe(page => {
-      this.data = page.content;
-      this.length = page.totalElement;
-    });
-  }
-
-  updateDataFilteringForDates() {
-    this.computerService.getComputerSortingAndFilteringForDates(this.navigation, this.filterColumn, this.filterValue).subscribe(page => {
       this.data = page.content;
       this.length = page.totalElement;
     });
