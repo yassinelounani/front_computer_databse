@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Computer } from '../model/computer.model';
-import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
+import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs, FilterSettingsModel, IFilter, Filter, updateData } from '@syncfusion/ej2-grids';
 import { ComputerService } from '../service/computer.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Company } from '../model/company.model';
 import { CompanyService } from '../service/company.service';
 import { Navigation } from '../model/navigation.model';
 import { PageEvent } from '@angular/material/paginator';
-import { FormValidatorModel, FormValidator } from '@syncfusion/ej2-inputs';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-computers',
@@ -16,19 +16,21 @@ import { FormValidatorModel, FormValidator } from '@syncfusion/ej2-inputs';
 })
 export class ComputersComponent implements OnInit {
 
+  @ViewChild('grid', { static: false })
+  public grid: GridComponent;
   public data: string[];
   public companies: Company[];
   public pageSettings: PageSettingsModel;
   public editSettings: EditSettingsModel;
   public toolbar: ToolbarItems[];
   public orderForm: FormGroup;
+
   public isEdit: boolean;
+  public isFilter: boolean;
 
   public navigation: Navigation;
   public length: string;
-
-  public formValidator: FormValidator;
-  public option: FormValidatorModel;
+  dropInstance: any;
 
   constructor(private computerService: ComputerService, private companyService: CompanyService) { }
 
@@ -41,20 +43,16 @@ export class ComputersComponent implements OnInit {
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
+    this.isFilter = false;
     this.length = '100';
-
-    this.formValidator = new FormValidator('#formID', this.option);
-    this.option = {
-      rules: {
-        'name': { required: true }
-      }
-    };
 
     this.navigation = {}
     this.navigation.number = '0';
     this.navigation.order = 'ASC';
-    this.navigation.property = 'id';
+    this.navigation.property = 'name';
     this.navigation.size = '10';
+    this.navigation.filter = '';
+    this.navigation.value = '';
     this.updateData();
   }
 
@@ -74,47 +72,30 @@ export class ComputersComponent implements OnInit {
     switch (args.requestType) {
 
       case 'beginEdit':
-        this.isEdit = true;
-        this.orderForm = this.createFormGroup(args.rowData);
+        this.edit(args);
         break;
 
       case 'add':
-        this.orderForm = this.createFormGroup(args.rowData);
+        this.add(args);
         break;
 
       case 'save':
-        console.log(this.formValidator.validate());
-        if (this.orderForm.valid) {
-          const computer: Computer = this.orderForm.getRawValue();
-          if (this.isEdit) {
-            this.isEdit = false;
-            this.computerService.updateComputer(computer).subscribe(() => { this.updateData(); });
-          } else {
-            this.computerService.addComputer(computer).subscribe(() => { this.updateData(); });
-          }
-        } else {
-          args.cancel = true;
-        }
+        this.save(args);
         break;
 
       case 'delete':
-        this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData(); });
+        this.delete(args);
         break;
 
       case 'sorting':
-        if (args.direction === 'Ascending') {
-          this.navigation.order = 'ASC'
-        }
-        if (args.direction === 'Descending') {
-          this.navigation.order = 'DSC'
-        }
-        if (args.columnName) {
-          this.navigation.property = args.columnName;
-        } else {
-          this.navigation.order = 'ASC'
-          this.navigation.property = 'name'
-        }
-        this.updateData();
+        this.sort(args);
+        break;
+
+      case 'filtering':
+        this.filter(args);
+        break;
+
+      case 'refresh':
         break;
     }
   }
@@ -134,10 +115,94 @@ export class ComputersComponent implements OnInit {
     target.parentElement.classList.remove('e-input-focus');
   }
 
+  edit(args: ActionEventArgs): void {
+    this.isEdit = true;
+    this.orderForm = this.createFormGroup(args.rowData);
+  }
+
+  add(args: ActionEventArgs): void {
+    this.orderForm = this.createFormGroup(args.rowData);
+  }
+
+  save(args: ActionEventArgs): void {
+    if (this.orderForm.valid) {
+      const computer: Computer = this.orderForm.getRawValue();
+      if (this.isEdit) {
+        this.isEdit = false;
+        this.computerService.updateComputer(computer).subscribe(() => { this.updateData() });
+      } else {
+        this.computerService.addComputer(computer).subscribe(() => { this.updateData() });
+      }
+    } else {
+      args.cancel = true;
+    }
+  }
+
+  delete(args: ActionEventArgs): void {
+    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData() });
+  }
+
+  sort(args: ActionEventArgs): void {
+    if (args.direction === 'Ascending') {
+      this.navigation.order = 'ASC'
+    }
+    if (args.direction === 'Descending') {
+      this.navigation.order = 'DSC'
+    }
+    if (args.columnName) {
+      if (args.columnName === 'nameCompany') {
+        this.navigation.property = 'company.name'
+      } else {
+        this.navigation.property = args.columnName;
+      }
+    } else {
+      this.navigation.order = 'ASC'
+      this.navigation.property = 'name'
+    }
+    this.updateData();
+  }
+
+  filter(args: ActionEventArgs): void {
+
+    if (args.currentFilteringColumn) {
+      this.isFilter = true;
+      this.navigation.filter = args.currentFilteringColumn;
+
+      switch (this.navigation.filter) {
+
+        case 'introduced':
+        case 'discontinued':
+          this.navigation.value = args.currentFilterObject.value.toString();
+          break;
+
+        case 'name':
+          this.navigation.filter = 'computer';
+          this.navigation.value = args.currentFilterObject.value.toString();
+          break;
+
+        case 'nameCompany':
+          this.navigation.filter = 'company';
+          this.navigation.value = args.currentFilterObject.value.toString();
+          break;
+      }
+    } else {
+      this.isFilter = false;
+      this.navigation.filter = '';
+      this.navigation.value = '';
+    }
+    
+    this.updateData();
+  }
+
+
+  dataBound() {
+    Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
+  }
+
   updatePage(pageEvent: PageEvent) {
     this.navigation.number = (pageEvent.pageIndex).toString();
     this.navigation.size = pageEvent.pageSize.toString();
-    this.updateData()
+    this.updateData();
   }
 
   updateData() {

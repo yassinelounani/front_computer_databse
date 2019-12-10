@@ -33,8 +33,13 @@ export class UserService {
   }
 
   isUserLoggedIn() {
-    const user = sessionStorage.getItem('username')
-    return !(user === null);
+    const user = sessionStorage.getItem('role');
+    return (user === 'user');
+  }
+
+  isAdminLoggedIn() {
+    const admin = sessionStorage.getItem('role');
+    return (admin === 'admin');
   }
 
   logout() {

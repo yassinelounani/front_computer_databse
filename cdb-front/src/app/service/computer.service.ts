@@ -30,22 +30,14 @@ export class ComputerService {
     return this.httpClient.get<Page>(`${this.computerUrl}/page`, { params: params, headers: this.headers });
   }
 
-  getComputerById(id: string): Observable<Page> {
-    return this.httpClient.get<Page>(`${this.computerUrl}/${id}`);
-  }
-
   getComputerBySort(navigation: Navigation): Observable<Page> {
     const params = new HttpParams().set('number', navigation.number)
       .set('size', navigation.size)
       .set('property', navigation.property)
-      .set('order', navigation.order);
+      .set('order', navigation.order)
+      .set('filter', navigation.filter)
+      .set('value', navigation.value);
     return this.httpClient.get<Page>(`${this.computerUrl}/sort`, { params: params });
-  }
-
-  getComputerByName(navigation: Navigation, name: string): Observable<Page> {
-    const params = new HttpParams().set('number', navigation.number)
-      .set('size', navigation.size);
-    return this.httpClient.get<Page>(`${this.computerUrl}/find/${name}`, { params: params });
   }
 
   addComputer(computer: Computer): Observable<Computer> {

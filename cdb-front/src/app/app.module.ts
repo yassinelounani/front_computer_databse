@@ -9,7 +9,7 @@ import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { GridModule, PageService, SortService, FilterService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { DropDownListAllModule } from '@syncfusion/ej2-angular-dropdowns';
-import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDividerModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatButtonModule, MatDividerModule, MatIconModule } from '@angular/material';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,8 +45,8 @@ import { HeaderComponent } from './header/header.component';
     MatButtonModule,
     MatDividerModule,
     MatPaginatorModule,
-    MatInputModule
-
+    MatInputModule,
+    MatIconModule
   ],
   providers: [
     PageService,

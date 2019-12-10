@@ -13,12 +13,13 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   user: User;
-  blackState: boolean = true;
+  hide: boolean;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
+    this.hide = true;
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -39,4 +40,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-}
+}  
