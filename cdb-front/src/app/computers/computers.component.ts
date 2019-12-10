@@ -163,4 +163,10 @@ export class ComputersComponent implements OnInit {
     });
   }
 
+  maxDate(args) { 
+    //Provide your Custom validation function here 
+    console.log(args)
+   //return args.value > this.minDiscontinued;
+   return true;
+  }
 }

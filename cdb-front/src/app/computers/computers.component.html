@@ -2,8 +2,8 @@
     [allowFiltering]='true' (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
     <e-columns>
         <e-column field='id' headerText='ID' width='80' textAlign='Right' isPrimaryKey='true'></e-column>
-        <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"idiot"]}'></e-column>
-        <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right' [validationRules]='{minDate:[defaultMinDate,"idiot"]}'></e-column>
+        <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"the name is required"]}'></e-column>
+        <e-column field='introduced' headerText='Introduced date' width='160' [validationRules]='{date:[true,"you know what is a date"], maxDate:[maxDate,"the date is not good"]}'></e-column>
         <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
         <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
     </e-columns>
