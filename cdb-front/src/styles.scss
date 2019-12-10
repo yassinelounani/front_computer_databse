@@ -1,18 +1,17 @@
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';  
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';  
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';  
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';  
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-angular-grids/styles/material.css';
 @import 'assets/scss/modules/_fonts.scss';
 html, body { height: 100%; }
-body { 
-    margin: 0; 
-    font-family: "Exo 2", Roboto, "Helvetica Neue", sans-serif; 
-    background-image: url(church.jpg);
-    background-repeat: no-repeat;
+body {
+    margin: 0;
+    font-family: "Exo 2", Roboto, "Helvetica Neue", sans-serif;
+
 }
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';

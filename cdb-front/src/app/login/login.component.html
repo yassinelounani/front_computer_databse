@@ -1,22 +1,24 @@
-<div class="parent">
+<div class="container">
+  <div class="parent">
     <form [formGroup]="loginForm">
-        <div class='example-container'>
-            <h1>Login</h1>
-            <mat-divider></mat-divider>
-            <mat-form-field>
-                <mat-label>Username</mat-label>
-                <input matInput placeholder="Userame" name="username" formControlName="username">
-                <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('username')}}</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Password</mat-label>
-                <input matInput placeholder="Password" name="password" formControlName="password">
-                <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('password')}}</mat-error>
-            </mat-form-field>
-            <button mat-stroked-button type="submit" aria-label="Add button" (click)="onSubmit()"
+      <div class='example-container'>
+        <h1>Login</h1>
+        <mat-divider></mat-divider>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Userame" name="username" formControlName="username">
+          <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('username')}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" name="password" formControlName="password">
+          <mat-error *ngIf="loginForm.invalid">{{getErrorMessage('password')}}</mat-error>
+        </mat-form-field>
+        <button mat-stroked-button type="submit" aria-label="Add button" (click)="onSubmit()"
                 [disabled]="loginForm.invalid">
-                Login
-            </button>
-        </div>
+          Login
+        </button>
+      </div>
     </form>
+  </div>
 </div>

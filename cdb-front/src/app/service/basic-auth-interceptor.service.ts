@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {catchError} from 'rxjs/operators';
 import {UserService} from './user.service';
-import {throwError} from 'rxjs';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private userService: UserService) {}
@@ -14,6 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
         'Access-Control-Allow-Origin': '*',
         'Authorization': `${sessionStorage.getItem('token')}`
       });
+      console.log(sessionStorage.getItem('token'));
       request = request.clone({headers});
     }
     return next.handle(request);

@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   user: User;
-  blackState:boolean = true;
+  blackState: boolean = true;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }

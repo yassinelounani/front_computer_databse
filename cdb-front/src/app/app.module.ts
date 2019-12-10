@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TestComponent } from './test/test.component';
 import { AuthInterceptor } from './service/basic-auth-interceptor.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {FooterComponent} from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     LoginComponent,
     ComputersComponent,
     CompaniesComponent,
-    TestComponent
+    TestComponent,
+    FooterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +46,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatDividerModule,
     MatPaginatorModule,
     MatInputModule
+
   ],
   providers: [
     PageService,
