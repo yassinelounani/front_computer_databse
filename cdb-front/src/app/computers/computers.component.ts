@@ -217,6 +217,7 @@ export class ComputersComponent implements OnInit {
     if (args.currentFilteringColumn) {
       this.isFilter = true;
       this.navigation.filter = args.currentFilteringColumn;
+      this.grid.filterModule.clearFiltering()
 
       switch (this.navigation.filter) {
 
