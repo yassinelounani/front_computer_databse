@@ -1,13 +1,13 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {Computer} from '../model/computer.model';
-import {EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs} from '@syncfusion/ej2-grids';
-import {ComputerService} from '../service/computer.service';
-import {FormGroup, Validators, FormControl} from '@angular/forms';
-import {Company} from '../model/company.model';
-import {CompanyService} from '../service/company.service';
-import {Navigation} from '../model/navigation.model';
-import {PageEvent} from '@angular/material/paginator';
-import {GridComponent} from '@syncfusion/ej2-angular-grids';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Computer } from '../model/computer.model';
+import { EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
+import { ComputerService } from '../service/computer.service';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { Company } from '../model/company.model';
+import { CompanyService } from '../service/company.service';
+import { Navigation } from '../model/navigation.model';
+import { PageEvent } from '@angular/material/paginator';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-computers',
@@ -16,7 +16,7 @@ import {GridComponent} from '@syncfusion/ej2-angular-grids';
 })
 export class ComputersComponent implements OnInit {
 
-  @ViewChild('grid', {static: false})
+  @ViewChild('grid', { static: false })
   public grid: GridComponent;
   public data: string[];
   public companies: Company[];
@@ -25,17 +25,18 @@ export class ComputersComponent implements OnInit {
   public orderForm: FormGroup;
 
   public isEdit: boolean;
-  public defaultMinDate = '1970-01-01';
-  public defaultMaxDate = '';
-  public maxIntroduced: string;
-  public minDiscontinued: string = this.defaultMinDate;
-
   public isFilter: boolean;
 
   public navigation: Navigation;
   private hidden: boolean;
   public length: string;
-  dropInstance: any;
+
+  public introduced: Date;
+  public discontinued: Date;
+  public minDiscontinued: Date;
+  public maxIntroduced: Date;
+  public defaultMin: Date;
+  public defaultMax: Date;
 
   constructor(private computerService: ComputerService, private companyService: CompanyService) {
   }
@@ -45,11 +46,12 @@ export class ComputersComponent implements OnInit {
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
-    this.editSettings = {allowEditing: true, allowAdding: true, allowDeleting: true};
+    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
     this.isFilter = false;
+    this.hidden = true;
     this.length = '100';
     this.navigation = {};
     this.navigation.number = '0';
@@ -59,22 +61,11 @@ export class ComputersComponent implements OnInit {
     this.navigation.filter = '';
     this.navigation.value = '';
     this.updateData();
-  }
 
-  setMaxIntroduced(maxIntroduced: string) {
-    if (maxIntroduced) {
-      this.maxIntroduced = maxIntroduced;
-    } else {
-      this.maxIntroduced = this.defaultMaxDate;
-    }
-  }
-
-  setMinDiscontinued(minDiscontinued: string) {
-    if (minDiscontinued) {
-      this.minDiscontinued = minDiscontinued;
-    } else {
-      this.minDiscontinued = this.defaultMinDate;
-    }
+    this.defaultMin = new Date("01/01/1970");
+    this.defaultMax = new Date("31/12/2099");
+    this.minDiscontinued = this.defaultMin;
+    this.maxIntroduced = this.defaultMax;
   }
 
   createFormGroup(data: Computer): FormGroup {
@@ -86,6 +77,30 @@ export class ComputersComponent implements OnInit {
       idCompany: new FormControl(data.idCompany),
       nameCompany: new FormControl(data.nameCompany)
     });
+  }
+
+  setMinDiscontinued(args: Date) {
+    if (args) {
+      this.minDiscontinued = args;
+      this.introduced = args;
+    } else {
+      this.minDiscontinued = this.defaultMin;
+      this.introduced = null;
+    }
+  }
+
+  setMaxIntroduced(args: Date) {
+    if (args) {
+      this.maxIntroduced = args;
+      this.discontinued = args;
+    } else {
+      this.maxIntroduced = this.defaultMax;
+      this.discontinued = null;
+    }
+  }
+
+  fix() {
+    document.getElementById('discontinued').className = 'ng-valid e-control e-datepicker e-lib ng-dirty ng-touched';
   }
 
   actionBegin(args: ActionEventArgs): void {
@@ -145,15 +160,25 @@ export class ComputersComponent implements OnInit {
   save(args: ActionEventArgs): void {
     if (this.orderForm.valid) {
       const computer: Computer = this.orderForm.getRawValue();
-      console.log(computer);
+      if (this.introduced) {
+        computer.introduced = this.introduced.toLocaleDateString();
+      }
+      if (this.discontinued) {
+        computer.discontinued = this.discontinued.toLocaleDateString();
+      }
+      console.log(computer.introduced);
       if (this.isEdit) {
         this.isEdit = false;
         this.computerService.updateComputer(computer).subscribe(() => {
           this.updateData();
+          this.introduced = null;
+          this.discontinued = null;
         });
       } else {
         this.computerService.addComputer(computer).subscribe(() => {
           this.updateData();
+          this.introduced = null;
+          this.discontinued = null;
         });
       }
     } else {
@@ -192,6 +217,7 @@ export class ComputersComponent implements OnInit {
     if (args.currentFilteringColumn) {
       this.isFilter = true;
       this.navigation.filter = args.currentFilteringColumn;
+      this.grid.filterModule.clearFiltering()
 
       switch (this.navigation.filter) {
 
@@ -220,7 +246,7 @@ export class ComputersComponent implements OnInit {
   }
 
   dataBound() {
-    Object.assign(this.grid.filterModule.filterOperators, {startsWith: 'contains', equal: 'contains'});
+    Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
   }
 
   updatePage(pageEvent: PageEvent) {
@@ -233,14 +259,8 @@ export class ComputersComponent implements OnInit {
     this.computerService.getComputerBySort(this.navigation).subscribe(page => {
       this.data = page.content;
       this.length = page.totalElement;
+      console.log(this.data);
     });
-  }
-
-  maxDate(args) {
-    // Provide your Custom validation function here
-    console.log(args);
-    // return args.value > this.minDiscontinued;
-    return true;
   }
 
   @HostListener('window:scroll', [])

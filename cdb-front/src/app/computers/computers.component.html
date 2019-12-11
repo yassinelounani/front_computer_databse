@@ -3,8 +3,9 @@
         [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
         (actionComplete)='actionComplete($event)'>
         <e-columns>
-            <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"the name is required"]}'></e-column>
-            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right' [validationRules]='{date:[true,"you know what is a date"], maxDate:[maxDate,"the date is not good"]}'></e-column>
+            <e-column field='name' headerText='Computer Name' width='160'
+                [validationRules]='{required:[true,"The name is required"]}'></e-column>
+            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right'></e-column>
             <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
             <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
         </e-columns>
@@ -26,14 +27,16 @@
                                 </div>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                    <ejs-datepicker name='introduced' formControlName="introduced"
-                                (change)="setMinDiscontinued($event.value)" [min]="defaultMinDate" [max]="maxIntroduced">
-                            </ejs-datepicker>
+                                <ejs-datepicker id='introduced' name='introduced' formControlName="introduced"
+                                    (change)="setMinDiscontinued($event.value)" [allowEdit]="false" [min]="defaultMin"
+                                    [max]="maxIntroduced">
+                                </ejs-datepicker>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                    <ejs-datepicker name='discontinued' formControlName="discontinued"
-                                (change)="setMaxIntroduced($event.value)" [min]="minDiscontinued" [max]="defaultMaxDate">
-                            </ejs-datepicker>
+                                <ejs-datepicker id='discontinued' name='discontinued' formControlName="discontinued"
+                                    (change)="setMaxIntroduced($event.value)" (open)="fix($event)" [allowEdit]="false"
+                                    [min]="minDiscontinued" [max]="defaultMax">
+                                </ejs-datepicker>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
                                 <ejs-dropdownlist id="nameCompany" name="idCompany" formControlName="idCompany"
