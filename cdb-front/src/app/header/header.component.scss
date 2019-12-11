@@ -39,4 +39,14 @@
     background-color: #F1FAEE;
     color: #1D3557;
   }
+
+  .ident {
+    color: orangered;
+    border-radius: 50px;
+    height: 30px;
+    width: 30px;
+    background-image: url('src/assets/images/avatar.png');
+    background-size: cover;
+    margin-top: 10px;
+    }
 }
