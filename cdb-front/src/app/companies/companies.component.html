@@ -1,7 +1,34 @@
-<ejs-grid #grid [dataSource]='data' [allowPaging]='true' [editSettings]='editSettings' [allowSorting]='true'
-    [allowFiltering]='true' [pageSettings]='pageSettings'>
-    <e-columns>
-        <e-column field='id' headerText='ID' width='20' textAlign='Right'></e-column>
-        <e-column field='name' headerText='Company Name' width='160'></e-column>
-    </e-columns>
-</ejs-grid>
+<div class="company">
+    <ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings' [allowSorting]='true'
+        [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
+        (actionComplete)='actionComplete($event)'>
+        <e-columns>
+            <e-column field='name' headerText='Company Name' width='200px'></e-column>
+        </e-columns>
+        <ng-template #editSettingsTemplate let-data>
+            <div [formGroup]="orderForm" id="formID">
+                <table class="e-table e-inline-edit" cellspacing="0.25">
+                    <colgroup>
+                        <col style="width: 200px;">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td class='e-rowcell'>
+                                <div class="e-input-group">
+                                    <input class="e-input e-field" name='name' formControlName="name"
+                                        type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </ng-template>
+    </ejs-grid>
+</div>
+
+<div class="paginator">
+    <mat-paginator [length]="length" [pageSize]="10" [pageSizeOptions]="[10,50]" [showFirstLastButtons]=true
+        (page)="updatePage($event)">
+    </mat-paginator>
+</div>

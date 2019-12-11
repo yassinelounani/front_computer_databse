@@ -12,7 +12,6 @@ export class AuthInterceptor implements HttpInterceptor {
         'Access-Control-Allow-Origin': '*',
         'Authorization': `${sessionStorage.getItem('token')}`
       });
-      console.log(sessionStorage.getItem('token'));
       request = request.clone({headers});
     }
     return next.handle(request);
