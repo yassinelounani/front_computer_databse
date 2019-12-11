@@ -26,10 +26,12 @@ export class ComputersComponent implements OnInit {
   public orderForm: FormGroup;
 
   public isEdit: boolean;
-  public defaultMinDate: string = "1970-01-01"
-  public defaultMaxDate: string = ""
-  public maxIntroduced: string;
-  public minDiscontinued: string = this.defaultMinDate;
+  public defaultMinDate: Date = new Date("01/01/1970");
+  public defaultMaxDate: Date;
+  public introduced: Date;
+  public discontinued : Date;
+  public maxIntroduced: Date;
+  public minDiscontinued: Date = this.defaultMinDate
   
   public isFilter: boolean;
 
@@ -61,19 +63,24 @@ export class ComputersComponent implements OnInit {
     this.updateData();
   }
 
-  setMaxIntroduced(maxIntroduced: string){
+  setMaxIntroduced(maxIntroduced){
+    console.log(maxIntroduced)
     if(maxIntroduced) {
-      this.maxIntroduced = maxIntroduced
+      this.maxIntroduced = maxIntroduced;
+      this.discontinued = maxIntroduced;
     } else {
-      this.maxIntroduced = this.defaultMaxDate;
+      this.maxIntroduced = new Date(this.defaultMaxDate);
+      this.discontinued = null;
     }
   }
 
-  setMinDiscontinued(minDiscontinued: string){
+  setMinDiscontinued(minDiscontinued: Date){
     if(minDiscontinued) {
-      this.minDiscontinued = minDiscontinued
+      this.minDiscontinued = minDiscontinued;
+      this.introduced = minDiscontinued;
     } else {
-      this.minDiscontinued = this.defaultMinDate
+      this.minDiscontinued = this.defaultMinDate;
+      this.introduced = null;
     }
   }
 
@@ -148,6 +155,13 @@ export class ComputersComponent implements OnInit {
   save(args: ActionEventArgs): void {
     if (this.orderForm.valid) {
       const computer: Computer = this.orderForm.getRawValue();
+      if(this.introduced){
+        computer.introduced = this.introduced.toLocaleDateString();
+      }
+      if(this.discontinued){
+        computer.discontinued = this.discontinued.toLocaleDateString();
+      }
+      console.log(computer)
       if (this.isEdit) {
         this.isEdit = false;
         this.computerService.updateComputer(computer).subscribe(() => { this.updateData() });
@@ -233,10 +247,8 @@ export class ComputersComponent implements OnInit {
     });
   }
 
-  maxDate(args) { 
+  introducedMinMax() { 
     //Provide your Custom validation function here 
-    console.log(args)
-   //return args.value > this.minDiscontinued;
-   return true;
+   return this.introduced < this.defaultMinDate && this.introduced < this.maxIntroduced
   }
 }
