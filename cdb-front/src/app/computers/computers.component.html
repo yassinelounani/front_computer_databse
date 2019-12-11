@@ -1,4 +1,4 @@
-<div class="computer">
+<div class="computer" id="haut">
     <ejs-grid #grid [dataSource]='data' [toolbar]='toolbar' [editSettings]='editSettings' [allowSorting]='true'
         [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
         (actionComplete)='actionComplete($event)'>
@@ -51,4 +51,13 @@
     <mat-paginator [length]="length" [pageSize]="10" [pageSizeOptions]="[10,50,100]" [showFirstLastButtons]=true
         (page)="updatePage($event)">
     </mat-paginator>
+</div>
+<div class="example-button-row">
+  <div class="example-row">
+  <a href="#haut">
+    <button mat-mini-fab aria-label="haut" class="btn-haut">
+      <mat-icon class="mat-icon-haut">expand_less</mat-icon>
+    </button>
+  </a>
+  </div>
 </div>

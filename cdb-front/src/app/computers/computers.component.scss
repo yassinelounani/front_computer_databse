@@ -9,3 +9,27 @@ ejs-grid {
 .computer {
   padding-top: 50px;
 }
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+.example-button-row {
+  background-color: #757575 !important;
+  opacity: 0.3;
+  position: fixed;
+  right: 10px;
+  bottom: 400px;
+}
+.example-button-row:hover {
+  background-color: #757575;
+  opacity: 1.0;
+  position: fixed;
+  right: 10px;
+  bottom: 400px;
+}
+.example-row {
+  opacity: 1.0;
+  position: fixed;
+  right: 10px;
+  bottom: 400px;
+}
