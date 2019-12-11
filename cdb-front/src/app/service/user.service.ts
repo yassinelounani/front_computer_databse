@@ -23,7 +23,7 @@ export class UserService {
       .pipe(
         map(
           userData => {
-            sessionStorage.setItem('username', user.username);
+            sessionStorage.setItem('username', JSON.stringify(userData));
             const tokenStr = 'Bearer ' + userData.token;
             sessionStorage.setItem('token', tokenStr);
             return userData;
