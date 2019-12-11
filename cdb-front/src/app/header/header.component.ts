@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../service/user.service';
+import {User} from "../model/user.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -8,10 +10,15 @@ import {UserService} from '../service/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  private isAuth = false;
+  user: User;
 
+  userSubscription: Subscription;
+  authSubscription: Subscription;
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
+    this.isAuth = this.isAuthenticate();
   }
 
   goToComputers() {
@@ -31,4 +38,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  isAuthenticate(): boolean {
+    return sessionStorage.getItem('username') != null ? true : false;
+  }
 }
