@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Computer } from '../model/computer.model';
-import { EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
-import { ComputerService } from '../service/computer.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { Company } from '../model/company.model';
-import { CompanyService } from '../service/company.service';
-import { Navigation } from '../model/navigation.model';
-import { PageEvent } from '@angular/material/paginator';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Computer} from '../model/computer.model';
+import {EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs} from '@syncfusion/ej2-grids';
+import {ComputerService} from '../service/computer.service';
+import {FormGroup, Validators, FormControl} from '@angular/forms';
+import {Company} from '../model/company.model';
+import {CompanyService} from '../service/company.service';
+import {Navigation} from '../model/navigation.model';
+import {PageEvent} from '@angular/material/paginator';
+import {GridComponent} from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-computers',
@@ -16,7 +16,7 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
 })
 export class ComputersComponent implements OnInit {
 
-  @ViewChild('grid', { static: false })
+  @ViewChild('grid', {static: false})
   public grid: GridComponent;
   public data: string[];
   public companies: Company[];
@@ -25,31 +25,33 @@ export class ComputersComponent implements OnInit {
   public orderForm: FormGroup;
 
   public isEdit: boolean;
-  public defaultMinDate: string = "1970-01-01"
-  public defaultMaxDate: string = ""
+  public defaultMinDate = '1970-01-01';
+  public defaultMaxDate = '';
   public maxIntroduced: string;
   public minDiscontinued: string = this.defaultMinDate;
-  
+
   public isFilter: boolean;
 
   public navigation: Navigation;
+  private hidden: boolean;
   public length: string;
   dropInstance: any;
 
-  constructor(private computerService: ComputerService, private companyService: CompanyService) { }
+  constructor(private computerService: ComputerService, private companyService: CompanyService) {
+  }
 
   ngOnInit(): void {
+    this.hidden = true;
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
-    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
+    this.editSettings = {allowEditing: true, allowAdding: true, allowDeleting: true};
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
     this.isFilter = false;
     this.length = '100';
-
-    this.navigation = {}
+    this.navigation = {};
     this.navigation.number = '0';
     this.navigation.order = 'ASC';
     this.navigation.property = 'name';
@@ -59,19 +61,19 @@ export class ComputersComponent implements OnInit {
     this.updateData();
   }
 
-  setMaxIntroduced(maxIntroduced: string){
-    if(maxIntroduced) {
-      this.maxIntroduced = maxIntroduced
+  setMaxIntroduced(maxIntroduced: string) {
+    if (maxIntroduced) {
+      this.maxIntroduced = maxIntroduced;
     } else {
       this.maxIntroduced = this.defaultMaxDate;
     }
   }
 
-  setMinDiscontinued(minDiscontinued: string){
-    if(minDiscontinued) {
-      this.minDiscontinued = minDiscontinued
+  setMinDiscontinued(minDiscontinued: string) {
+    if (minDiscontinued) {
+      this.minDiscontinued = minDiscontinued;
     } else {
-      this.minDiscontinued = this.defaultMinDate
+      this.minDiscontinued = this.defaultMinDate;
     }
   }
 
@@ -146,9 +148,13 @@ export class ComputersComponent implements OnInit {
       console.log(computer);
       if (this.isEdit) {
         this.isEdit = false;
-        this.computerService.updateComputer(computer).subscribe(() => { this.updateData() });
+        this.computerService.updateComputer(computer).subscribe(() => {
+          this.updateData();
+        });
       } else {
-        this.computerService.addComputer(computer).subscribe(() => { this.updateData() });
+        this.computerService.addComputer(computer).subscribe(() => {
+          this.updateData();
+        });
       }
     } else {
       args.cancel = true;
@@ -156,25 +162,27 @@ export class ComputersComponent implements OnInit {
   }
 
   delete(args: ActionEventArgs): void {
-    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => { this.updateData() });
+    this.computerService.deleteComputerById(args.data[0].id).subscribe(() => {
+      this.updateData();
+    });
   }
 
   sort(args: ActionEventArgs): void {
     if (args.direction === 'Ascending') {
-      this.navigation.order = 'ASC'
+      this.navigation.order = 'ASC';
     }
     if (args.direction === 'Descending') {
-      this.navigation.order = 'DSC'
+      this.navigation.order = 'DSC';
     }
     if (args.columnName) {
       if (args.columnName === 'nameCompany') {
-        this.navigation.property = 'company.name'
+        this.navigation.property = 'company.name';
       } else {
         this.navigation.property = args.columnName;
       }
     } else {
-      this.navigation.order = 'ASC'
-      this.navigation.property = 'name'
+      this.navigation.order = 'ASC';
+      this.navigation.property = 'name';
     }
     this.updateData();
   }
@@ -207,12 +215,12 @@ export class ComputersComponent implements OnInit {
       this.navigation.filter = '';
       this.navigation.value = '';
     }
-    
+
     this.updateData();
   }
 
   dataBound() {
-    Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
+    Object.assign(this.grid.filterModule.filterOperators, {startsWith: 'contains', equal: 'contains'});
   }
 
   updatePage(pageEvent: PageEvent) {
@@ -228,10 +236,19 @@ export class ComputersComponent implements OnInit {
     });
   }
 
-  maxDate(args) { 
-    //Provide your Custom validation function here 
-    console.log(args)
-   //return args.value > this.minDiscontinued;
-   return true;
+  maxDate(args) {
+    // Provide your Custom validation function here
+    console.log(args);
+    // return args.value > this.minDiscontinued;
+    return true;
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY + 300) >= 1.5 * document.body.offsetHeight) {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
+    }
   }
 }

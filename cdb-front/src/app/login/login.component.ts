@@ -14,11 +14,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
   hide: boolean;
+  private error: boolean;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
+    this.error = true;
     this.hide = true;
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -28,7 +30,12 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.user = this.loginForm.getRawValue();
-    this.userService.login(this.user).subscribe(() => { this.router.navigate(['/computers']);});
+    this.userService.login(this.user).subscribe(
+      () => { this.router.navigate(['/computers']);}
+      , (error => {
+        this.error = false;
+        this.router.navigate(['/login']);
+      }));
   }
 
   getErrorMessage(field: string) {
@@ -40,4 +47,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-}  
+}

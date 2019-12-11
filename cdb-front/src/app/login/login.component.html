@@ -4,6 +4,11 @@
         <div class='example-container'>
             <h1>Login</h1>
             <mat-divider></mat-divider>
+          <div [hidden]="error" style="color: red">
+            Sorry the user does not exist or the password is wrong
+            <mat-divider style="margin-top: 20px"></mat-divider>
+          </div>
+
             <mat-form-field>
                 <mat-label>Username</mat-label>
                 <input matInput placeholder="Userame" name="username" formControlName="username">
