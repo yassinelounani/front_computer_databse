@@ -171,10 +171,14 @@ export class ComputersComponent implements OnInit {
         this.isEdit = false;
         this.computerService.updateComputer(computer).subscribe(() => {
           this.updateData();
+          this.introduced = null;
+          this.discontinued = null;
         });
       } else {
         this.computerService.addComputer(computer).subscribe(() => {
           this.updateData();
+          this.introduced = null;
+          this.discontinued = null;
         });
       }
     } else {
@@ -254,6 +258,7 @@ export class ComputersComponent implements OnInit {
     this.computerService.getComputerBySort(this.navigation).subscribe(page => {
       this.data = page.content;
       this.length = page.totalElement;
+      console.log(this.data);
     });
   }
 
