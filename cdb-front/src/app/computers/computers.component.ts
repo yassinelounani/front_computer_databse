@@ -25,6 +25,11 @@ export class ComputersComponent implements OnInit {
   public orderForm: FormGroup;
 
   public isEdit: boolean;
+  public defaultMinDate: string = "1970-01-01"
+  public defaultMaxDate: string = ""
+  public maxIntroduced: string;
+  public minDiscontinued: string = this.defaultMinDate;
+  
   public isFilter: boolean;
 
   public navigation: Navigation;
@@ -52,6 +57,22 @@ export class ComputersComponent implements OnInit {
     this.navigation.filter = '';
     this.navigation.value = '';
     this.updateData();
+  }
+
+  setMaxIntroduced(maxIntroduced: string){
+    if(maxIntroduced) {
+      this.maxIntroduced = maxIntroduced
+    } else {
+      this.maxIntroduced = this.defaultMaxDate;
+    }
+  }
+
+  setMinDiscontinued(minDiscontinued: string){
+    if(minDiscontinued) {
+      this.minDiscontinued = minDiscontinued
+    } else {
+      this.minDiscontinued = this.defaultMinDate
+    }
   }
 
   createFormGroup(data: Computer): FormGroup {
@@ -206,4 +227,10 @@ export class ComputersComponent implements OnInit {
     });
   }
 
+  maxDate(args) { 
+    //Provide your Custom validation function here 
+    console.log(args)
+   //return args.value > this.minDiscontinued;
+   return true;
+  }
 }

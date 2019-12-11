@@ -3,8 +3,8 @@
         [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
         (actionComplete)='actionComplete($event)'>
         <e-columns>
-            <e-column field='name' headerText='Computer Name' width='160'></e-column>
-            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right'></e-column>
+            <e-column field='name' headerText='Computer Name' width='160' [validationRules]='{required:[true,"the name is required"]}'></e-column>
+            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right' [validationRules]='{date:[true,"you know what is a date"], maxDate:[maxDate,"the date is not good"]}'></e-column>
             <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
             <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
         </e-columns>
@@ -21,21 +21,19 @@
                         <tr>
                             <td class='e-rowcell'>
                                 <div class="e-input-group">
-                                    <input class="e-input e-field" name='name' formControlName="name" type="text"
+                                    <input class="e-input" name='name' formControlName="name" type="text"
                                         (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
                                 </div>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                <div class="e-input-group">
-                                    <input class="e-input e-field" name='introduced' formControlName="introduced"
-                                        type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
-                                </div>
+                                    <ejs-datepicker name='introduced' formControlName="introduced"
+                                (change)="setMinDiscontinued($event.value)" [min]="defaultMinDate" [max]="maxIntroduced">
+                            </ejs-datepicker>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
-                                <div class="e-input-group">
-                                    <input class="e-input e-field" name='discontinued' formControlName="discontinued"
-                                        type="text" (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
-                                </div>
+                                    <ejs-datepicker name='discontinued' formControlName="discontinued"
+                                (change)="setMaxIntroduced($event.value)" [min]="minDiscontinued" [max]="defaultMaxDate">
+                            </ejs-datepicker>
                             </td>
                             <td style="text-align: right" class='e-rowcell'>
                                 <ejs-dropdownlist id="nameCompany" name="idCompany" formControlName="idCompany"
