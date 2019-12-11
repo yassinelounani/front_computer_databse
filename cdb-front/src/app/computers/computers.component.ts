@@ -1,13 +1,13 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {Computer} from '../model/computer.model';
-import {EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs} from '@syncfusion/ej2-grids';
-import {ComputerService} from '../service/computer.service';
-import {FormGroup, Validators, FormControl} from '@angular/forms';
-import {Company} from '../model/company.model';
-import {CompanyService} from '../service/company.service';
-import {Navigation} from '../model/navigation.model';
-import {PageEvent} from '@angular/material/paginator';
-import {GridComponent} from '@syncfusion/ej2-angular-grids';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Computer } from '../model/computer.model';
+import { EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
+import { ComputerService } from '../service/computer.service';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { Company } from '../model/company.model';
+import { CompanyService } from '../service/company.service';
+import { Navigation } from '../model/navigation.model';
+import { PageEvent } from '@angular/material/paginator';
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-computers',
@@ -16,7 +16,7 @@ import {GridComponent} from '@syncfusion/ej2-angular-grids';
 })
 export class ComputersComponent implements OnInit {
 
-  @ViewChild('grid', {static: false})
+  @ViewChild('grid', { static: false })
   public grid: GridComponent;
   public data: string[];
   public companies: Company[];
@@ -46,11 +46,12 @@ export class ComputersComponent implements OnInit {
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
-    this.editSettings = {allowEditing: true, allowAdding: true, allowDeleting: true};
+    this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
     this.isFilter = false;
+    this.hidden = true;
     this.length = '100';
     this.navigation = {};
     this.navigation.number = '0';
@@ -78,7 +79,7 @@ export class ComputersComponent implements OnInit {
     });
   }
 
-  setMinDiscontinued(args: Date) {
+  setMinDiscontinued(args: Date) {
     if (args) {
       this.minDiscontinued = args;
       this.introduced = args;
@@ -159,10 +160,10 @@ export class ComputersComponent implements OnInit {
   save(args: ActionEventArgs): void {
     if (this.orderForm.valid) {
       const computer: Computer = this.orderForm.getRawValue();
-      if(this.introduced){
+      if (this.introduced) {
         computer.introduced = this.introduced.toLocaleDateString();
       }
-      if(this.discontinued){
+      if (this.discontinued) {
         computer.discontinued = this.discontinued.toLocaleDateString();
       }
       console.log(computer.introduced);
@@ -240,7 +241,7 @@ export class ComputersComponent implements OnInit {
   }
 
   dataBound() {
-    Object.assign(this.grid.filterModule.filterOperators, {startsWith: 'contains', equal: 'contains'});
+    Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
   }
 
   updatePage(pageEvent: PageEvent) {
@@ -254,5 +255,14 @@ export class ComputersComponent implements OnInit {
       this.data = page.content;
       this.length = page.totalElement;
     });
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY + 300) >= 1.5 * document.body.offsetHeight) {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
+    }
   }
 }
