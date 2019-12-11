@@ -67,6 +67,11 @@ footer h6:after {
   padding: 10px 15px;
   background: #1D3557;
 }
+
+.social .fa:hover {
+  color: #F1FAEE;
+}
+
 .sc:hover {
   color: #F1FAEE;
   font-size: 30px;

@@ -143,6 +143,7 @@ export class ComputersComponent implements OnInit {
   save(args: ActionEventArgs): void {
     if (this.orderForm.valid) {
       const computer: Computer = this.orderForm.getRawValue();
+      console.log(computer);
       if (this.isEdit) {
         this.isEdit = false;
         this.computerService.updateComputer(computer).subscribe(() => { this.updateData() });

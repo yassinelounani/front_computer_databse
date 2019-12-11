@@ -3,24 +3,16 @@
         [allowFiltering]='true' (dataBound)='dataBound($event)' (actionBegin)='actionBegin($event)'
         (actionComplete)='actionComplete($event)'>
         <e-columns>
-            <e-column field='id' headerText='ID' width='20px' textAlign='Right'></e-column>
             <e-column field='name' headerText='Company Name' width='200px'></e-column>
         </e-columns>
         <ng-template #editSettingsTemplate let-data>
             <div [formGroup]="orderForm" id="formID">
                 <table class="e-table e-inline-edit" cellspacing="0.25">
                     <colgroup>
-                        <col style="width: 20px;">
                         <col style="width: 200px;">
                     </colgroup>
                     <tbody>
                         <tr>
-                            <td style="text-align: right" class='e-rowcell'>
-                                <div class="e-input-group">
-                                    <input class="e-input e-field" name='id' formControlName="id" type="text"
-                                        (focus)="focusIn($event.target)" (blur)="focusOut($event.target)" />
-                                </div>
-                            </td>
                             <td class='e-rowcell'>
                                 <div class="e-input-group">
                                     <input class="e-input e-field" name='name' formControlName="name"

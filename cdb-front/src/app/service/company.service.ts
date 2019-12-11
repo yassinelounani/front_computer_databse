@@ -26,14 +26,6 @@ export class CompanyService {
     return this.httpClient.get<Page>(`${this.companyUrl}/page`, { params: params });
   }
 
-  findCompany(navigation: Navigation): Observable<Page> {
-    const params = new HttpParams()
-      .set('number', navigation.number)
-      .set('size', navigation.size)
-      .set('value', navigation.value);
-    return this.httpClient.get<Page>(`${this.companyUrl}/find`, { params: params });
-  }
-
   getCompaniesBySort(navigation: Navigation): Observable<Page> {
     const params = new HttpParams().set('number', navigation.number)
       .set('size', navigation.size)

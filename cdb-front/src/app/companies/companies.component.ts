@@ -16,7 +16,7 @@ export class CompaniesComponent implements OnInit {
 
   @ViewChild('grid', { static: false })
   grid: GridComponent;
-  data: Company[];
+  data: string[];
   editSettings: EditSettingsModel;
   toolbar: ToolbarItems[];
   isEdit: boolean;
@@ -29,9 +29,6 @@ export class CompaniesComponent implements OnInit {
   constructor(private companyService: CompanyService) { }
 
   ngOnInit() {
-    this.companyService.getCompanies().subscribe(companies => {
-      this.data = companies;
-    });
 
     this.isEdit = false;
     this.isFilter = false;
@@ -160,7 +157,7 @@ export class CompaniesComponent implements OnInit {
   }
 
   updateData() {
-    this.companyService.getCompanyBySort(this.navigation).subscribe(page => {
+    this.companyService.getCompaniesBySort(this.navigation).subscribe(page => {
       this.data = page.content;
       this.length = page.totalElement;
     });
