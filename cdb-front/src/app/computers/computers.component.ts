@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Computer } from '../model/computer.model';
-import { PageSettingsModel, EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs, FilterSettingsModel, IFilter, Filter, updateData } from '@syncfusion/ej2-grids';
+import { EditSettingsModel, ToolbarItems, DialogEditEventArgs, ActionEventArgs } from '@syncfusion/ej2-grids';
 import { ComputerService } from '../service/computer.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Company } from '../model/company.model';
@@ -20,7 +20,6 @@ export class ComputersComponent implements OnInit {
   public grid: GridComponent;
   public data: string[];
   public companies: Company[];
-  public pageSettings: PageSettingsModel;
   public editSettings: EditSettingsModel;
   public toolbar: ToolbarItems[];
   public orderForm: FormGroup;
@@ -38,7 +37,6 @@ export class ComputersComponent implements OnInit {
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
-    this.pageSettings = { pageSize: 10, pageSizes: ['10', '25', '50', 'All'] };
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
     this.orderForm = this.createFormGroup({});
@@ -93,9 +91,6 @@ export class ComputersComponent implements OnInit {
 
       case 'filtering':
         this.filter(args);
-        break;
-
-      case 'refresh':
         break;
     }
   }
@@ -193,7 +188,6 @@ export class ComputersComponent implements OnInit {
     
     this.updateData();
   }
-
 
   dataBound() {
     Object.assign(this.grid.filterModule.filterOperators, { startsWith: 'contains', equal: 'contains' });
