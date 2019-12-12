@@ -1,8 +1,8 @@
 <div *ngIf='router.url!="/login"' class="topnav fixed-top">
   <span class="item left">Computer database</span>
   <a id="computer" class="item left active" (click)='goToComputers()'>Computers</a>
-  <a id="company" class="item left" (click)='goToCompanies()'>Companies</a>
+  <a id="company" class="item left" (click)='goToCompanies()' *ngIf="isAdmin">Companies</a>
   <a class="item right" (click)='logOut()'>Log out</a>
-  <span class="item right">User</span>
-  <span class="item right ident"></span>
+  <span class="item right" *ngIf="isAuth">{{user.username}}</span>
+  <span class="item right ident" *ngIf="isAuth"></span>
 </div>

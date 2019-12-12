@@ -4,8 +4,6 @@ import { LoginComponent } from './login/login.component';
 import { IsSignedInService } from './service/is-signed-in.service';
 import { ComputersComponent } from './computers/computers.component';
 import { CompaniesComponent } from './companies/companies.component';
-import {TestComponent} from './test/test.component';
-
 const routes: Routes = [
   {
     path: 'login',
@@ -13,22 +11,14 @@ const routes: Routes = [
   },
   {
     path: 'computers',
-    component: ComputersComponent,
-    canActivate: [ IsSignedInService ]
+    component: ComputersComponent
   },
   {
     path: 'companies',
     component: CompaniesComponent,
     canActivate: [ IsSignedInService]
   },
-  {
-    path: 'test',
-    component: TestComponent,
-  },
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({

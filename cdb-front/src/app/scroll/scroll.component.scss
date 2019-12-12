@@ -1,0 +1,27 @@
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px;
+}
+.example-button-row {
+  opacity: 1.0;
+  position: fixed;
+
+  right: 0px;
+  bottom: 340px;
+}
+.example-button-row:hover {
+  opacity: 1.0;
+  position: fixed;
+  right: 0px;
+  bottom: 340px;
+}
+.btn-haut {
+  opacity: 1.0;
+  position: fixed;
+  background-color: #1D3557 !important;
+  right: 0px;
+  bottom: 340px;
+}
+.mat-icon-haut {
+  color: white !important;
+}
