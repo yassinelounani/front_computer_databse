@@ -28,7 +28,6 @@ export class ComputersComponent implements OnInit {
   public isFilter: boolean;
 
   public navigation: Navigation;
-  private hidden: boolean;
   public length: string;
 
   public introduced: Date;
@@ -42,7 +41,7 @@ export class ComputersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.hidden = true;
+
     this.companyService.getCompanies().subscribe(companies => {
       this.companies = companies;
     });
@@ -51,7 +50,6 @@ export class ComputersComponent implements OnInit {
     this.orderForm = this.createFormGroup({});
     this.isEdit = false;
     this.isFilter = false;
-    this.hidden = true;
     this.length = '100';
     this.navigation = {};
     this.navigation.number = '0';
@@ -62,8 +60,8 @@ export class ComputersComponent implements OnInit {
     this.navigation.value = '';
     this.updateData();
 
-    this.defaultMin = new Date("01/01/1970");
-    this.defaultMax = new Date("31/12/2099");
+    this.defaultMin = new Date('01/01/1970');
+    this.defaultMax = new Date('31/12/2099');
     this.minDiscontinued = this.defaultMin;
     this.maxIntroduced = this.defaultMax;
   }
@@ -261,14 +259,5 @@ export class ComputersComponent implements OnInit {
       this.length = page.totalElement;
       console.log(this.data);
     });
-  }
-
-  @HostListener('window:scroll', [])
-  onScroll(): void {
-    if ((window.innerHeight + window.scrollY + 300) >= 1.5 * document.body.offsetHeight) {
-      this.hidden = false;
-    } else {
-      this.hidden = true;
-    }
   }
 }

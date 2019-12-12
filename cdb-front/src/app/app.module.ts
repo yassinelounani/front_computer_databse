@@ -20,6 +20,7 @@ import { AuthInterceptor } from './service/basic-auth-interceptor.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {FooterComponent} from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { ScrollComponent } from './scroll/scroll.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HeaderComponent } from './header/header.component';
     CompaniesComponent,
     TestComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    ScrollComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { Navigation } from '../model/navigation.model';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'app-companys',
@@ -25,18 +26,16 @@ export class CompaniesComponent implements OnInit {
   navigation: Navigation;
   length: string;
   isFilter: boolean;
-
-  constructor(private companyService: CompanyService) { }
+  constructor(private companyService: CompanyService, private userService: UserService) { }
 
   ngOnInit() {
-
     this.isEdit = false;
     this.isFilter = false;
     this.orderForm = this.createFormGroup({});
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true };
     this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
 
-    this.navigation = {}
+    this.navigation = {};
     this.navigation.number = '0';
     this.navigation.order = 'ASC';
     this.navigation.size = '10';
@@ -107,17 +106,17 @@ export class CompaniesComponent implements OnInit {
 
   sort(args: ActionEventArgs) {
     if (args.direction === 'Ascending') {
-      this.navigation.order = 'ASC'
+      this.navigation.order = 'ASC';
     } else if (args.direction === 'Descending') {
-      this.navigation.order = 'DSC'
+      this.navigation.order = 'DSC';
     } else {
-      this.navigation.order = 'ASC'
+      this.navigation.order = 'ASC';
     }
     this.updateData();
   }
 
   delete(args: ActionEventArgs) {
-    this.companyService.deleteCompanyById(args.data[0].id).subscribe(() => { this.updateData() });
+    this.companyService.deleteCompanyById(args.data[0].id).subscribe(() => { this.updateData(); });
   }
 
   save(args: ActionEventArgs) {
@@ -125,9 +124,9 @@ export class CompaniesComponent implements OnInit {
       const company: Company = this.orderForm.getRawValue();
       if (this.isEdit) {
         this.isEdit = false;
-        this.companyService.updateCompany(company).subscribe(() => { this.updateData() });
+        this.companyService.updateCompany(company).subscribe(() => { this.updateData(); });
       } else {
-        this.companyService.addCompany(company).subscribe(() => { this.updateData() });
+        this.companyService.addCompany(company).subscribe(() => { this.updateData(); });
       }
     } else {
       args.cancel = true;

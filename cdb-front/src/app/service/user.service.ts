@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from '../model/user.model';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 
 @Injectable({
@@ -10,7 +10,10 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   private url = 'http://localhost:8080/cdb-webapp/login';
-
+  authSubject = new Subject<boolean>();
+  userSubject = new Subject<User>();
+  isAuth = false;
+  user: User;
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
@@ -26,10 +29,18 @@ export class UserService {
             sessionStorage.setItem('username', JSON.stringify(userData));
             const tokenStr = 'Bearer ' + userData.token;
             sessionStorage.setItem('token', tokenStr);
+            this.isAuth = true;
+            this.user = userData;
+            this.emitUserSubject();
             return userData;
           }
         )
       );
+  }
+
+  emitUserSubject() {
+    this.authSubject.next(this.isAuth);
+    this.userSubject.next(this.user);
   }
 
   isUserLoggedIn() {
