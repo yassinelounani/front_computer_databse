@@ -5,8 +5,8 @@
         <e-columns>
             <e-column field='name' headerText='Computer Name' width='160'
                 [validationRules]='{required:[true,"The name is required"]}'></e-column>
-            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right'></e-column>
-            <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right'></e-column>
+            <e-column field='introduced' headerText='Introduced date' width='160' textAlign='Right' [allowFiltering]='false'></e-column>
+            <e-column field='discontinued' headerText='Discontinued date' width='160' textAlign='Right' [allowFiltering]='false'></e-column>
             <e-column field='nameCompany' headerText='Company Name' width='160' textAlign='Right'></e-column>
         </e-columns>
         <ng-template #editSettingsTemplate let-data>
